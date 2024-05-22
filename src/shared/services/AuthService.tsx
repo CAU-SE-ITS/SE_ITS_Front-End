@@ -1,10 +1,10 @@
 import { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 
-import { API, setAccess } from "@/configs/axios";
-import { PAGE_URL } from "@/configs/path";
+import { API, setAccess } from "@/shared/configs/axios";
+import { PAGE_URL } from "@/shared/configs/path";
 
-import useUserState from "@/stores/userStore";
+import useUserState from "@/shared/hooks/userStore";
 
 const AuthService = () => {
   const setId = useUserState((state) => state.signIn);

@@ -6,11 +6,11 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Loading from "./components/Loading";
+import Loading from "../entities/Loading";
 
-import { PAGE_URL } from "./configs/path";
+import { PAGE_URL } from "../shared/configs/path";
 
-const SignIn = lazy(() => import("./pages/auth/signin/SignInPage"));
+const SignIn = lazy(() => import("../pages/auth/signin/SignInPage"));
 
 const PageRouter = () => (
   <Suspense fallback={<Loading />}>
