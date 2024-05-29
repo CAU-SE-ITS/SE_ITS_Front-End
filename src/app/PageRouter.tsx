@@ -10,7 +10,8 @@ import { Loading } from "@/entities";
 
 import { PAGE_URL } from "@/shared";
 
-const SignIn = lazy(() => import("../pages/auth/signin/SignInPage"));
+const SignIn = lazy(() => import("@/pages/auth/signin/SignInPage"));
+const Setting = lazy(() => import("@/pages/Setting/SettingPage"));
 
 const PageRouter = () => (
   <Suspense fallback={<Loading />}>
@@ -19,6 +20,7 @@ const PageRouter = () => (
         <Route>
           <Route index element={<Navigate to={PAGE_URL.SignIn} replace />} />
           <Route path={PAGE_URL.SignIn} element={<SignIn />} />
+          <Route path={PAGE_URL.Setting} element={<Setting />} />
         </Route>
       </Routes>
     </RootRouter>
