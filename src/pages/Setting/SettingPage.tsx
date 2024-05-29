@@ -3,7 +3,7 @@ import { Projects, Accounts, Container, AccountControl } from "@/entities";
 const SettingPage = () => {
   return (
     <>
-      {/* <AccountControl></AccountControl> */}
+      <AccountControl></AccountControl>
       <Container>
         <Accounts></Accounts>
         <Projects></Projects>

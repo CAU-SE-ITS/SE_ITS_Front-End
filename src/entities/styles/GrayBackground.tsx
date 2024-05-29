@@ -28,9 +28,10 @@ const Container = styled.div`
   border-radius: 5px;
 
   width: 450px;
-  height: 650px;
+  height: 500px;
 
   display: flex;
-  align-items: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

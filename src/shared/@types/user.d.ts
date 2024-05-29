@@ -1,7 +1,7 @@
 declare namespace User {
   //DTO
   export interface SignInReqDto {
-    name: string;
+    id: string;
     password: string;
   }
 
@@ -17,6 +17,13 @@ declare namespace User {
 
   //Var
   export type Role = "ADMIN" | "PL" | "DEV" | "TESTER";
+
+  //Form
+  export interface AccountCreateForm {
+    id: string;
+    password: string;
+    passwordCheck: string;
+  }
 
   //Store
   export interface userStore {
