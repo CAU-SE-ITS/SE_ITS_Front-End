@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const Logo = ({ type }: { type: "BIG" | "SMALL" }) => (
+export const Logo = ({ type }: { type: "BIG" | "SMALL" }) => (
   <>
     {type === "SMALL" ? (
       <SmallLogoImg src="/img/cits_logo.png" alt="logo" />
@@ -17,5 +17,3 @@ const SmallLogoImg = styled.img`
 const BigLogoImg = styled.img`
   width: 270px;
 `;
-
-export default Logo;

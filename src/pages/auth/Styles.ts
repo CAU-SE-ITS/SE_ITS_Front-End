@@ -33,6 +33,8 @@ export const StyleButton = styled(Button)`
   margin-top: 10px;
   margin-bottom: 5px;
 
+  transition: opacity 1s linear;
+
   :hover {
     background-color: #2528c7;
 

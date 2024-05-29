@@ -1,9 +1,7 @@
 import { useForm } from "react-hook-form";
 
-import { Container, SignInContainer } from "@/entities/Container";
-import Logo from "@/entities/Logo";
-
-import AuthService from "@/shared/services/AuthService";
+import { Container, SignInContainer, Logo } from "@/entities";
+import { AuthService } from "@/shared";
 
 import * as Styles from "../Styles";
 
@@ -15,7 +13,7 @@ const SignInPage = () => {
     },
   });
 
-  const [signin] = AuthService();
+  const { signin } = AuthService();
 
   const onSubmit = (data: User.SignInReqDto) => {
     signin(data);

@@ -6,7 +6,8 @@ declare namespace User {
   }
 
   export interface SignInResDto {
-    id: string;
+    id: number;
+    role: Role;
   }
 
   /* export interface SignInResDto {
@@ -14,10 +15,14 @@ declare namespace User {
     refreshToken: string;
   } */
 
+  //Var
+  export type Role = "ADMIN" | "PL" | "DEV" | "TESTER";
+
   //Store
   export interface userStore {
     isSignIn: boolean;
-    userId: string;
-    signIn: (id: string) => void;
+    userId: number;
+    role: Role;
+    signIn: (data: SignInResDto) => void;
   }
 }

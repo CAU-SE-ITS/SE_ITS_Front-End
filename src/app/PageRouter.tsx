@@ -6,9 +6,9 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Loading from "../entities/Loading";
+import { Loading } from "@/entities";
 
-import { PAGE_URL } from "../shared/configs/path";
+import { PAGE_URL } from "@/shared";
 
 const SignIn = lazy(() => import("../pages/auth/signin/SignInPage"));
 

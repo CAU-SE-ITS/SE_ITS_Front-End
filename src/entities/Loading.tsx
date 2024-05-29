@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 import { MoonLoader } from "react-spinners";
 
-const Loading = () => {
+export const Loading = () => {
   return (
     <LoadingWrapper>
       <MoonLoader color="#212121" size={150} speedMultiplier={0.8} />
@@ -17,5 +17,3 @@ export const LoadingWrapper = styled.div`
   width: 100vw;
   height: 100vh;
 `;
-
-export default Loading;
