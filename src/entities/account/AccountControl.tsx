@@ -1,20 +1,44 @@
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "@emotion/styled";
 
 import Button from "@mui/material/Button";
 
-import { GrayBackground } from "@/entities";
+import { GrayBackground, SelectInput, StatusMessage } from "@/entities";
+
+const options = [
+  { value: "PL", label: "PL" },
+  { value: "DEV", label: "DEV" },
+  { value: "TESTER", label: "TESTER" },
+];
 
 export const AccountControl = () => {
-  const { handleSubmit, register } = useForm<User.AccountCreateForm>();
+  const { handleSubmit, register, setValue } =
+    useForm<User.AccountCreateForm>();
+  const [message, setMessage] = useState<false | string>(false);
 
   const onSubmit: SubmitHandler<User.AccountCreateForm> = (data) => {
+    if (data.password !== data.passwordCheck)
+      setMessage("입력한 비밀번호가 동일하지 않습니다.");
+    if (!data.role) setMessage("직책을 선택하지 않았습니다.");
     console.log(data);
+  };
+
+  const handleSelectChange = (value: User.Role) => {
+    setValue("role", value);
   };
 
   return (
     <GrayBackground>
+      {message ? (
+        <StatusMessage
+          message={message}
+          setMessage={setMessage}
+          duration={2000}
+        />
+      ) : null}
       <Form onSubmit={handleSubmit(onSubmit)}>
+        <Title>계정 생성</Title>
         <Input
           placeholder="아이디"
           {...register("id", { required: "아이디를 입력해주세요!" })}
@@ -31,13 +55,26 @@ export const AccountControl = () => {
             required: "비밀번호를 입력해주세요!",
           })}
         />
+        <SelectInput
+          options={options}
+          onChange={handleSelectChange}
+          placeholder="직책 설정"
+        />
         <StyleButton type="submit" variant="contained">
-          계정 생성
+          등록하기
         </StyleButton>
       </Form>
     </GrayBackground>
   );
 };
+
+const Title = styled.div`
+  font-size: 35px;
+  font-weight: bold;
+  color: #2528c7;
+
+  margin-bottom: -8px;
+`;
 
 const Form = styled.form`
   width: 100%;
@@ -73,7 +110,7 @@ const StyleButton = styled(Button)`
   font-size: 17px;
   font-weight: bold;
   width: 82%;
-  height: 45px;
+  height: 50px;
 
   background-color: #2528c7;
 
@@ -92,7 +129,7 @@ const StyleButton = styled(Button)`
     border: 0px;
 
     box-shadow: 0 0 0 0 black;
-    margin-top: 15px;
+    margin-top: 25px;
     margin-bottom: 0px;
 
     transition: 0s;

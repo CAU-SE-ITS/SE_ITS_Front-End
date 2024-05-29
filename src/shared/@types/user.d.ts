@@ -23,6 +23,7 @@ declare namespace User {
     id: string;
     password: string;
     passwordCheck: string;
+    role: Role;
   }
 
   //Store

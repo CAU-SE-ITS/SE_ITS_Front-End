@@ -8,7 +8,7 @@ export const GrayBackground = ({ children }: { children: ReactNode }) => (
 );
 
 const Background = styled.div`
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
   top: 0;
   left: 0;
