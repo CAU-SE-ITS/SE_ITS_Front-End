@@ -1,4 +1,4 @@
-import { ScrollArea } from "../styles/Container";
+import { ScrollArea } from "@/entities";
 
 export const Accounts = () => {
   return (
