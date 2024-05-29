@@ -9,7 +9,7 @@ export const Element = styled.div`
   border-radius: 2px;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: row;
 `;

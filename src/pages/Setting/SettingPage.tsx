@@ -1,11 +1,14 @@
-import { Projects, Accounts, Container } from "@/entities";
+import { Projects, Accounts, Container, AccountControl } from "@/entities";
 
 const SettingPage = () => {
   return (
-    <Container>
-      <Projects></Projects>
-      <Accounts></Accounts>
-    </Container>
+    <>
+      {/* <AccountControl></AccountControl> */}
+      <Container>
+        <Accounts></Accounts>
+        <Projects></Projects>
+      </Container>
+    </>
   );
 };
 

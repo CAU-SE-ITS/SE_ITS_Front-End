@@ -2,7 +2,7 @@ import { ScrollArea, Element } from "@/entities";
 
 export const Projects = () => {
   return (
-    <ScrollArea title="PROJECT">
+    <ScrollArea title="프로젝트 관리">
       <Element></Element>
       <Element></Element>
       <Element></Element>

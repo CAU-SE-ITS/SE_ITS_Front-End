@@ -6,6 +6,9 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import AppStyles from "./AppStyles";
+import AuthRouter from "./AuthRouter";
+
 import { Loading } from "@/entities";
 
 import { PAGE_URL } from "@/shared";
@@ -16,13 +19,16 @@ const Setting = lazy(() => import("@/pages/Setting/SettingPage"));
 const PageRouter = () => (
   <Suspense fallback={<Loading />}>
     <RootRouter>
-      <Routes>
-        <Route>
-          <Route index element={<Navigate to={PAGE_URL.SignIn} replace />} />
-          <Route path={PAGE_URL.SignIn} element={<SignIn />} />
-          <Route path={PAGE_URL.Setting} element={<Setting />} />
-        </Route>
-      </Routes>
+      <AppStyles />
+      <AuthRouter>
+        <Routes>
+          <Route>
+            <Route index element={<Navigate to={PAGE_URL.SignIn} replace />} />
+            <Route path={PAGE_URL.SignIn} element={<SignIn />} />
+            <Route path={PAGE_URL.Setting} element={<Setting />} />
+          </Route>
+        </Routes>
+      </AuthRouter>
     </RootRouter>
   </Suspense>
 );

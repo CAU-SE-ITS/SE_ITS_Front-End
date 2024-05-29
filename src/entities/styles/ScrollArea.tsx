@@ -55,12 +55,11 @@ const ScrollContainer = styled.div`
 const ScrollTitle = styled.div`
   position: absolute;
 
-  left: 50%;
-  transform: translate(-50%);
+  left: 30px;
 
-  top: 32px;
+  top: 34px;
 
-  font-size: 25px;
+  font-size: 23px;
   font-weight: bold;
   color: white;
 
