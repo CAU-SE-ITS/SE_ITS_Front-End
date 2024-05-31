@@ -8,8 +8,11 @@ export const Element = styled.div`
   background-color: #eaeaea;
   border-radius: 2px;
 
+  font-size: 20px;
+  font-weight: bold;
+
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-direction: row;
 `;

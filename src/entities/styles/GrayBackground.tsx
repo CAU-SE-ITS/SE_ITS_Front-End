@@ -1,10 +1,17 @@
 import styled from "@emotion/styled";
 import { ReactNode } from "react";
 
-export const GrayBackground = ({ children }: { children: ReactNode }) => (
-  <Background>
+export const GrayBackground = ({
+  children,
+  onClose,
+}: {
+  children: ReactNode;
+  onClose: () => void;
+}) => (
+  <>
+    <Background onClick={onClose} />
     <Container>{children}</Container>
-  </Background>
+  </>
 );
 
 const Background = styled.div`
@@ -24,6 +31,10 @@ const Background = styled.div`
 `;
 
 const Container = styled.div`
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
   border-radius: 5px;
 
@@ -34,4 +45,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  z-index: 3;
 `;

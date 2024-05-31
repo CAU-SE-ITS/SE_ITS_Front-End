@@ -5,26 +5,28 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 export const ScrollArea = ({
   children,
   title,
+  createClick,
 }: {
   children: ReactNode;
   title: string;
+  createClick?: () => void;
 }) => (
   <div style={{ position: "relative" }}>
     <ScrollTitle>{title}</ScrollTitle>
     <ScrollBox>
       <ScrollContainer>{children}</ScrollContainer>
     </ScrollBox>
-    <CreateButton />
+    {createClick && <CreateButton onClick={createClick} />}
   </div>
 );
 
 const CreateButton = styled(AddBoxIcon)`
   position: absolute;
-  top: 25px;
+  top: 32px;
   right: 28px;
 
   color: white;
-  font-size: 50px;
+  font-size: 38px;
 `;
 
 const ScrollBox = styled.div`

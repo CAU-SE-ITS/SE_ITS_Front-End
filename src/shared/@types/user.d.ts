@@ -26,6 +26,7 @@ declare namespace User {
   //Form
   export interface AccountCreateForm {
     id: string;
+    name: string;
     password: string;
     passwordCheck: string;
     role: Role;

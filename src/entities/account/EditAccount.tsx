@@ -13,7 +13,13 @@ const options = [
   { value: "TESTER", label: "TESTER" },
 ];
 
-export const EditAccount = ({ user }: { user: User.User }) => {
+export const EditAccount = ({
+  user,
+  onClose,
+}: {
+  user: User.User;
+  onClose: () => void;
+}) => {
   const { handleSubmit, setValue } = useForm<User.AccountEditForm>();
   const [message, setMessage] = useState<false | string>(false);
 
@@ -32,7 +38,7 @@ export const EditAccount = ({ user }: { user: User.User }) => {
   };
 
   return (
-    <GrayBackground>
+    <GrayBackground onClose={onClose}>
       {message ? (
         <StatusMessage
           message={message}

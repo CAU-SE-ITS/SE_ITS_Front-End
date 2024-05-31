@@ -12,12 +12,16 @@ const options = [
   { value: "TESTER", label: "TESTER" },
 ];
 
-export const CreateAccount = () => {
+export const CreateAccount = ({ onClose }: { onClose: () => void }) => {
   const { handleSubmit, register, setValue } =
     useForm<User.AccountCreateForm>();
   const [message, setMessage] = useState<false | string>(false);
 
   const onSubmit: SubmitHandler<User.AccountCreateForm> = (data) => {
+    if (!data.password || !data.passwordCheck || !data.id || !data.name) {
+      setMessage("모든 정보를 입력해주세요.");
+      return;
+    }
     if (data.password !== data.passwordCheck) {
       setMessage("입력한 비밀번호가 동일하지 않습니다.");
       return;
@@ -34,7 +38,7 @@ export const CreateAccount = () => {
   };
 
   return (
-    <GrayBackground>
+    <GrayBackground onClose={onClose}>
       {message ? (
         <StatusMessage
           message={message}
@@ -44,21 +48,17 @@ export const CreateAccount = () => {
       ) : null}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Title>계정 생성</Title>
-        <Input
-          placeholder="아이디"
-          {...register("id", { required: "아이디를 입력해주세요!" })}
-        />
+        <Input placeholder="아이디" {...register("id")} />
+        <Input placeholder="이름" {...register("name")} />
         <Input
           placeholder="비밀번호"
           type="password"
-          {...register("password", { required: "비밀번호를 입력해주세요!" })}
+          {...register("password")}
         />
         <Input
           placeholder="비밀번호 재입력"
           type="password"
-          {...register("passwordCheck", {
-            required: "비밀번호를 입력해주세요!",
-          })}
+          {...register("passwordCheck")}
         />
         <SelectInput
           options={options}
