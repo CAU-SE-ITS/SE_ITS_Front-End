@@ -39,7 +39,7 @@ const Container = styled.div`
   border-radius: 5px;
 
   width: 450px;
-  height: 500px;
+  height: 570px;
 
   display: flex;
   flex-direction: column;

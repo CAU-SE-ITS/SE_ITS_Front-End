@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { ScrollArea, Element, CreateProject } from "@/entities";
 
+import { ProjectService, useProjectStore } from "@/shared";
+
 export const Projects = () => {
   const [onCreate, setOnCreate] = useState(false);
+  const projects = useProjectStore((state) => state.projects);
+  const { loadAllProjectList } = ProjectService();
+
+  useEffect(() => {
+    //loadAllProjectList();
+  }, []);
 
   return (
     <>
@@ -21,18 +29,11 @@ export const Projects = () => {
           setOnCreate(true);
         }}
       >
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
-        <Element></Element>
+        {projects.map((project) => (
+          <Element key={project.id} onClick={() => {}}>
+            {`${project.name} [${project.id}]`}
+          </Element>
+        ))}
       </ScrollArea>
     </>
   );

@@ -45,7 +45,7 @@ export const Accounts = () => {
               setOnEdit(account);
             }}
           >
-            {`${account.name} (${account.role})`}
+            {`${account.name} [${account.role}] [${account.id}] `}
           </Element>
         ))}
       </ScrollArea>

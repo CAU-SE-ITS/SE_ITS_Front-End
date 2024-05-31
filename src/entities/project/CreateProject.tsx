@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 
 import { GrayBackground, SelectInput, StatusMessage } from "@/entities";
-import { AccountService, useAccountStore } from "@/shared";
+import { AccountService, useAccountStore, ProjectService } from "@/shared";
 
 export const CreateProject = ({ onClose }: { onClose: () => void }) => {
   const { handleSubmit, register } = useForm<Project.ProjectCreateFrom>();
@@ -22,6 +22,8 @@ export const CreateProject = ({ onClose }: { onClose: () => void }) => {
 
   const users = useAccountStore((state) => state.accounts);
   const { loadAllAccountList } = AccountService();
+  const { addProject } = ProjectService();
+
   useEffect(() => {
     //loadAllAccountList();
   }, []);
@@ -42,6 +44,8 @@ export const CreateProject = ({ onClose }: { onClose: () => void }) => {
       setMessage("모든 정보를 입력해주세요.");
       return;
     }
+
+    addProject({ name: data.name, members });
 
     onClose();
   };
