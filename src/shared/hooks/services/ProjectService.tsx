@@ -8,6 +8,7 @@ export const ProjectService = () => {
   const URL = "api/v1/project";
 
   const setProjects = useProjectStore((state) => state.setProjects);
+  const setProject = useProjectStore((state) => state.setProject);
   const setAddProject = useProjectStore((state) => state.addProject);
   const setSetProjectMember = useProjectStore(
     (state) => state.setProjectMember
@@ -22,7 +23,15 @@ export const ProjectService = () => {
     setProjects(data);
   };
 
-  const addProject = async (body: { name: string; members: number[] }) => {
+  const loadProject = async (id: number) => {
+    const { data } = (await API.get(
+      `${URL}/${id}`
+    )) as AxiosResponse<Project.Project>;
+
+    setProject(data);
+  };
+
+  const addProject = async (body: { name: string; memberIds: number[] }) => {
     const { data } = (await API.post(
       `${URL}/create`,
       body
@@ -38,11 +47,11 @@ export const ProjectService = () => {
   ) => {
     if (type === "DELETE") {
       await API.put(`${URL}/${id}/member/delete`, {
-        id: user.id,
+        deleteMemberId: user.id,
       });
     } else {
       await API.put(`${URL}/${id}/member/add`, {
-        id: user.id,
+        addMemberId: user.id,
       });
     }
 
@@ -57,5 +66,11 @@ export const ProjectService = () => {
     setDeleteProject(id);
   };
 
-  return { loadAllProjectList, addProject, setProjectMember, deleteProject };
+  return {
+    loadAllProjectList,
+    loadProject,
+    addProject,
+    setProjectMember,
+    deleteProject,
+  };
 };

@@ -50,10 +50,12 @@ const StyledSelect = styled.select`
 
   font-size: 16px;
   text-align: center;
+  font-family: "Spoqa Han Sans Neo", "sans-seri";
 
   border: 2px solid #5d5dff;
   border-radius: 3px;
   color: gray;
+  font-family: "Spoqa Han Sans Neo", "sans-seri";
 
   :focus {
     border: 2px solid #5d5dff;

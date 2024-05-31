@@ -5,12 +5,8 @@ declare namespace Project {
   export interface Project {
     name: string;
     id: number;
-    issue: Issue[];
+    issue: Issue.Issue[];
     members: User.User[];
-  }
-
-  export interface Issue {
-    id: number;
   }
 
   //Form
@@ -21,7 +17,9 @@ declare namespace Project {
   //Store
   export interface ProjectStore {
     projects: Project[];
+    project: Project | false;
     setProjects: (projects: LoadAccountListResDto) => void;
+    setProject: (project: Project) => void;
     addProject: (project: Project) => void;
     setProjectMember: (
       id: number,

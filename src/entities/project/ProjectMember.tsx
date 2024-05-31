@@ -8,10 +8,7 @@ import BackspaceIcon from "@mui/icons-material/Backspace";
 import { GrayBackground, SelectInput, StatusMessage } from "@/entities";
 import { AccountService, useAccountStore, ProjectService } from "@/shared";
 
-export const CreateProject = ({ onClose }: { onClose: () => void }) => {
-  const { handleSubmit, register } = useForm<Project.ProjectCreateFrom>();
-  const [message, setMessage] = useState<false | string>(false);
-
+export const ProjectMember = () => {
   const [members, setMembers] = useState<number[]>([]);
   const [options, setOptions] = useState<
     {
@@ -25,7 +22,7 @@ export const CreateProject = ({ onClose }: { onClose: () => void }) => {
   const { addProject } = ProjectService();
 
   useEffect(() => {
-    loadAllAccountList();
+    //loadAllAccountList();
   }, []);
 
   useEffect(() => {

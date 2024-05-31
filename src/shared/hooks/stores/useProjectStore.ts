@@ -4,9 +4,16 @@ import { immer } from "zustand/middleware/immer";
 export const useProjectStore = create<Project.ProjectStore>()(
   immer((set) => ({
     projects: [],
+    project: false,
 
     setProjects: (projects) => {
       set(() => ({ projects: projects }));
+    },
+
+    setProject: (project) => {
+      set(() => ({
+        project: project,
+      }));
     },
 
     addProject: (project) => {

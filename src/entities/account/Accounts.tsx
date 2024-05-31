@@ -13,8 +13,6 @@ export const Accounts = () => {
     loadAllAccountList();
   }, []);
 
-  console.log(accounts);
-
   return (
     <>
       {onEdit && (
@@ -33,7 +31,7 @@ export const Accounts = () => {
         />
       )}
       <ScrollArea
-        title="계정 관리"
+        title="사용자"
         createClick={() => {
           setOnCreate(true);
         }}
