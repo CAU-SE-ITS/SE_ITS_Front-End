@@ -23,14 +23,17 @@ export const EditAccount = ({
   const { handleSubmit, setValue } = useForm<User.AccountEditForm>();
   const [message, setMessage] = useState<false | string>(false);
 
-  const { deleteAccount } = AccountService();
+  const { deleteAccount, editAccount } = AccountService();
 
   const onSubmit: SubmitHandler<User.AccountEditForm> = (data) => {
     if (!data.role) {
       setMessage("직책을 선택하지 않았습니다.");
       return;
     }
-    console.log(data);
+
+    editAccount(user.id, data.role);
+
+    onClose();
   };
 
   const handleSelectChange = (value: User.Role) => {
@@ -60,6 +63,7 @@ export const EditAccount = ({
         <DeleteButton
           onClick={() => {
             deleteAccount(user.id);
+            onClose();
           }}
         >
           계정 삭제하기

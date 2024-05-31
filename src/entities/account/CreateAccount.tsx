@@ -31,6 +31,8 @@ export const CreateAccount = ({ onClose }: { onClose: () => void }) => {
       return;
     }
     console.log(data);
+
+    onClose();
   };
 
   const handleSelectChange = (value: User.Role) => {
