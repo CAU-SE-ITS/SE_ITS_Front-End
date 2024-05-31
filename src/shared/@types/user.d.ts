@@ -7,6 +7,13 @@ declare namespace User {
 
   export type SignInResDto = User;
 
+  export interface SignUpRepDto {
+    signId: string;
+    name: string;
+    password: string;
+    role: Role;
+  }
+
   export type LoadAccountListResDto = User[];
 
   /* export interface SignInResDto {
@@ -46,6 +53,7 @@ declare namespace User {
 
   export interface AccountStore {
     accounts: LoadAccountListResDto;
+    addAccount: (user: User) => void;
     setAccounts: (accounts: LoadAccountListResDto) => void;
     setAccount: (id: number, role: User.Role) => void;
     deleteAccount: (id: number) => void;

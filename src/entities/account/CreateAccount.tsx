@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 
 import { GrayBackground, SelectInput, StatusMessage } from "@/entities";
+import { AccountService } from "@/shared";
 
 const options = [
   { value: "PL", label: "PL" },
@@ -16,6 +17,7 @@ export const CreateAccount = ({ onClose }: { onClose: () => void }) => {
   const { handleSubmit, register, setValue } =
     useForm<User.AccountCreateForm>();
   const [message, setMessage] = useState<false | string>(false);
+  const { addAccount } = AccountService();
 
   const onSubmit: SubmitHandler<User.AccountCreateForm> = (data) => {
     if (!data.password || !data.passwordCheck || !data.id || !data.name) {
@@ -30,7 +32,12 @@ export const CreateAccount = ({ onClose }: { onClose: () => void }) => {
       setMessage("직책을 선택하지 않았습니다.");
       return;
     }
-    console.log(data);
+    addAccount({
+      signId: data.id,
+      name: data.name,
+      password: data.password,
+      role: data.role,
+    });
 
     onClose();
   };

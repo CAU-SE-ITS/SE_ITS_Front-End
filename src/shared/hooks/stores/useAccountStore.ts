@@ -9,6 +9,13 @@ export const useAccountStore = create<User.AccountStore>((set) => ({
     set(() => ({ accounts: accounts }));
   },
 
+  addAccount: (user) => {
+    set((state) => {
+      state.accounts.push(user);
+      return {};
+    });
+  },
+
   setAccount: (id, role) => {
     set((state) => {
       if (state.accounts.find((user) => user.id === id))

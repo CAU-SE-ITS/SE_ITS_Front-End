@@ -8,19 +8,29 @@ export const AccountService = () => {
   const setAccounts = useAccountStore((state) => state.setAccounts);
   const setAccount = useAccountStore((state) => state.setAccount);
   const setDeleteAccount = useAccountStore((state) => state.deleteAccount);
+  const setAddAccount = useAccountStore((state) => state.addAccount);
 
-  const URL = "api/v1/member/account";
+  const URL = "api/v1/member";
 
   const loadAllAccountList = async () => {
     const { data } = (await API.get(
-      `${URL}`
+      `${URL}/account`
     )) as AxiosResponse<User.LoadAccountListResDto>;
 
     setAccounts(data);
   };
 
+  const addAccount = async (body: User.SignUpRepDto) => {
+    const { data } = (await API.post(
+      `${URL}/signin`,
+      body
+    )) as AxiosResponse<User.User>;
+
+    setAddAccount(data);
+  };
+
   const editAccount = async (id: number, role: User.Role) => {
-    await API.put(`${URL}/update`, {
+    await API.put(`${URL}/account/update`, {
       data: { id: id, role: role },
     });
 
@@ -28,12 +38,12 @@ export const AccountService = () => {
   };
 
   const deleteAccount = async (id: number) => {
-    await API.put(`${URL}/delete`, {
+    await API.put(`${URL}/account/delete`, {
       data: { id: id },
     });
 
     setDeleteAccount(id);
   };
 
-  return { loadAllAccountList, deleteAccount, editAccount };
+  return { loadAllAccountList, addAccount, deleteAccount, editAccount };
 };
