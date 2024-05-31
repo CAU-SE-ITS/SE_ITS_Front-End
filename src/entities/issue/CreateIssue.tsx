@@ -6,11 +6,18 @@ import Button from "@mui/material/Button";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 
 import { GrayBackground, SelectInput, StatusMessage } from "@/entities";
-import { AccountService, useAccountStore, ProjectService } from "@/shared";
+import {
+  AccountService,
+  useAccountStore,
+  ProjectService,
+  useProjectStore,
+} from "@/shared";
 
 export const CreateIssue = ({ onClose }: { onClose: () => void }) => {
   const { handleSubmit, register } = useForm<Issue.CreateIssueForm>();
   const [message, setMessage] = useState<false | string>(false);
+
+  const project = useProjectStore((state) => state.project);
 
   const onSubmit: SubmitHandler<Issue.CreateIssueForm> = (data) => {
     if (!data.title || !data.description) {
@@ -19,6 +26,7 @@ export const CreateIssue = ({ onClose }: { onClose: () => void }) => {
     }
 
     console.log(data);
+    project && console.log(project.id);
 
     onClose();
   };

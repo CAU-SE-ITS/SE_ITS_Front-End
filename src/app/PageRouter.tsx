@@ -15,7 +15,7 @@ import { PAGE_URL } from "@/shared";
 
 const SignIn = lazy(() => import("@/pages/auth/signin/SignInPage"));
 const Setting = lazy(() => import("@/pages/setting/SettingPage"));
-const Project = lazy(() => import("@/pages/project/Project"));
+const Project = lazy(() => import("@/pages/project/ProjectPage"));
 
 const PageRouter = () => (
   <Suspense fallback={<Loading />}>

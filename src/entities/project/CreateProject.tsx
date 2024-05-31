@@ -34,7 +34,10 @@ export const CreateProject = ({ onClose }: { onClose: () => void }) => {
       label: string;
     }[] = [];
     users.map((user) => {
-      newOptions.push({ value: user.id, label: `${user.name} (${user.role})` });
+      newOptions.push({
+        value: user.id,
+        label: `${user.name} [${user.role}] [${user.id}]`,
+      });
     });
     setOptions(newOptions);
   }, [users]);

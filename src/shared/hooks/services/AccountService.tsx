@@ -30,8 +30,11 @@ export const AccountService = () => {
   };
 
   const editAccount = async (id: number, role: User.Role) => {
+    console.log(role);
+    console.log(id);
     await API.put(`${URL}/account/update`, {
-      data: { id: id, role: role },
+      id: id,
+      role: role,
     });
 
     setAccount(id, role);

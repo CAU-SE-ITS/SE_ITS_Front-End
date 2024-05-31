@@ -1,7 +1,7 @@
 export { Container, SignInContainer } from "./styles/Container";
 export { Logo } from "./styles/Logo";
 
-export { ScrollArea } from "./styles/ScrollArea";
+export { ScrollArea, SmallScrollArea } from "./styles/ScrollArea";
 export { Element } from "./styles/Element";
 export { GrayBackground } from "./styles/GrayBackground";
 export { SelectInput } from "./styles/SelectInput";
@@ -11,6 +11,7 @@ export { StatusMessage } from "./StatusMessage";
 
 export { Projects } from "./project/Projects";
 export { CreateProject } from "./project/CreateProject";
+export { ProjectMembers } from "./project/ProjectControl";
 
 export { CreateIssue } from "./issue/CreateIssue";
 

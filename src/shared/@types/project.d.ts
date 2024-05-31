@@ -5,7 +5,7 @@ declare namespace Project {
   export interface Project {
     name: string;
     id: number;
-    issue: Issue.Issue[];
+    issues: Issue.Issue[];
     members: User.User[];
   }
 

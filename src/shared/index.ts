@@ -9,3 +9,4 @@ export { ProjectService } from "./hooks/services/ProjectService";
 export { useUserStore } from "./hooks/stores/useUserStore";
 export { useAccountStore } from "./hooks/stores/useAccountStore";
 export { useProjectStore } from "./hooks/stores/useProjectStore";
+export { useIssueStore } from "./hooks/stores/useIssueStore";

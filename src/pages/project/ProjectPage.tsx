@@ -2,10 +2,16 @@ import { useState, useEffect } from "react";
 
 import { useNavigate, useLocation } from "react-router";
 
-import { ScrollArea, Element, CreateIssue, Container } from "@/entities";
+import {
+  ScrollArea,
+  Element,
+  CreateIssue,
+  Container,
+  ProjectMembers,
+} from "@/entities";
 import { ProjectService, useProjectStore, PAGE_URL } from "@/shared";
 
-const Project = () => {
+const ProjectPage = () => {
   const location = useLocation();
   const [onCreate, setOnCreate] = useState(false);
 
@@ -15,12 +21,6 @@ const Project = () => {
 
   useEffect(() => {
     //loadProject(location.state.id);
-    setProject({
-      name: "걸작",
-      id: 1,
-      issue: [],
-      members: [],
-    });
   }, []);
 
   return (
@@ -40,14 +40,15 @@ const Project = () => {
         }}
       >
         {project &&
-          project.issue.map((issue) => (
+          project.issues.map((issue) => (
             <Element key={project.id} onClick={() => {}}>
               {`${issue.title} [${issue.id}] [${issue.state}/${issue.priority}]`}
             </Element>
           ))}
       </ScrollArea>
+      <ProjectMembers />
     </Container>
   );
 };
 
-export default Project;
+export default ProjectPage;

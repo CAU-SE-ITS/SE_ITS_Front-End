@@ -45,9 +45,10 @@ export const ProjectService = () => {
     user: User.User,
     type: "DELETE" | "ADD"
   ) => {
+    console.log(user);
     if (type === "DELETE") {
       await API.put(`${URL}/${id}/member/delete`, {
-        deleteMemberId: user.id,
+        removeMemberId: user.id,
       });
     } else {
       await API.put(`${URL}/${id}/member/add`, {
@@ -59,9 +60,7 @@ export const ProjectService = () => {
   };
 
   const deleteProject = async (id: number) => {
-    await API.put(`${URL}/delete`, {
-      id: id,
-    });
+    await API.put(`${URL}/${id}`);
 
     setDeleteProject(id);
   };

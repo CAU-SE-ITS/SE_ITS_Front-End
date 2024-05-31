@@ -24,12 +24,10 @@ export const useProjectStore = create<Project.ProjectStore>()(
 
     setProjectMember: (id, user, type) => {
       set((state) => {
-        const project = state.projects.find((project) => project.id === id);
-
-        if (type === "ADD") project?.members.push(user);
-        else if (type === "DELETE")
-          project?.members.splice(
-            project?.members.findIndex((member) => member.id === user.id),
+        if (type === "ADD" && state.project) state.project.members.push(user);
+        else if (type === "DELETE" && state.project)
+          state.project.members.splice(
+            state.project.members.findIndex((member) => member.id === user.id),
             1
           );
       });
