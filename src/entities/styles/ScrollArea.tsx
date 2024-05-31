@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styled from "@emotion/styled";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 export const ScrollArea = ({
   children,
@@ -13,8 +14,18 @@ export const ScrollArea = ({
     <ScrollBox>
       <ScrollContainer>{children}</ScrollContainer>
     </ScrollBox>
+    <CreateButton />
   </div>
 );
+
+const CreateButton = styled(AddBoxIcon)`
+  position: absolute;
+  top: 25px;
+  right: 28px;
+
+  color: white;
+  font-size: 50px;
+`;
 
 const ScrollBox = styled.div`
   position: relative;

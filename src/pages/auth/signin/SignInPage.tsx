@@ -8,7 +8,7 @@ import * as Styles from "../Styles";
 const SignInPage = () => {
   const { register, handleSubmit } = useForm<User.SignInReqDto>({
     defaultValues: {
-      id: "",
+      signId: "",
       password: "",
     },
   });
@@ -26,7 +26,7 @@ const SignInPage = () => {
         <Styles.SignInForm onSubmit={handleSubmit(onSubmit)}>
           <Styles.Input
             placeholder="아이디"
-            {...register("id", { required: "아이디를 입력해주세요!" })}
+            {...register("signId", { required: "아이디를 입력해주세요!" })}
           />
           <Styles.Input
             placeholder="비밀번호"

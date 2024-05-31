@@ -13,15 +13,13 @@ export const AuthService = () => {
   const URL = "/api/v1/user";
 
   const signin = async (body: User.SignInReqDto) => {
-    const {
-      data: { id, role },
-    } = (await API.post(
+    const { data } = (await API.post(
       `${URL}/sign-in`,
       body
     )) as AxiosResponse<User.SignInResDto>;
 
-    setAccess(id);
-    signIn({ id: id, role: role });
+    setAccess(data.id);
+    signIn({ ...data });
 
     navigate(PAGE_URL.Project);
   };
