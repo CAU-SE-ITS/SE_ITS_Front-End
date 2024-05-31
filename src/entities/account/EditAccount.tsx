@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 
 import { GrayBackground, SelectInput, StatusMessage } from "@/entities";
+import { AccountService } from "@/shared";
 
 const options = [
   { value: "PL", label: "PL" },
@@ -12,12 +13,17 @@ const options = [
   { value: "TESTER", label: "TESTER" },
 ];
 
-export const EditAccount = () => {
-  const { handleSubmit, register, setValue } =
-    useForm<User.AccountCreateForm>({role: });
+export const EditAccount = ({ user }: { user: User.User }) => {
+  const { handleSubmit, setValue } = useForm<User.AccountEditForm>();
   const [message, setMessage] = useState<false | string>(false);
 
+  const { deleteAccount } = AccountService();
+
   const onSubmit: SubmitHandler<User.AccountEditForm> = (data) => {
+    if (!data.role) {
+      setMessage("직책을 선택하지 않았습니다.");
+      return;
+    }
     console.log(data);
   };
 
@@ -35,31 +41,23 @@ export const EditAccount = () => {
         />
       ) : null}
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Title>계정 생성</Title>
-        <Input
-          placeholder="아이디"
-          {...register("id", { required: "아이디를 입력해주세요!" })}
-        />
-        <Input
-          placeholder="비밀번호"
-          type="password"
-          {...register("password", { required: "비밀번호를 입력해주세요!" })}
-        />
-        <Input
-          placeholder="비밀번호 재입력"
-          type="password"
-          {...register("passwordCheck", {
-            required: "비밀번호를 입력해주세요!",
-          })}
-        />
+        <Title>{user.name} 계정 편집</Title>
         <SelectInput
           options={options}
           onChange={handleSelectChange}
           placeholder="직책 설정"
         />
         <StyleButton type="submit" variant="contained">
-          등록하기
+          변경하기
         </StyleButton>
+
+        <DeleteButton
+          onClick={() => {
+            deleteAccount(user.id);
+          }}
+        >
+          계정 삭제하기
+        </DeleteButton>
       </Form>
     </GrayBackground>
   );
@@ -70,7 +68,7 @@ const Title = styled.div`
   font-weight: bold;
   color: #2528c7;
 
-  margin-bottom: -8px;
+  margin-bottom: 60px;
 `;
 
 const Form = styled.form`
@@ -80,27 +78,6 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const Input = styled.input`
-  background-color: white;
-
-  width: 80%;
-  height: 45px;
-
-  border: 2px solid #9797ff;
-  border-radius: 3px;
-
-  outline: none;
-
-  margin-top: 20px;
-
-  font-size: 16px;
-  text-align: center;
-
-  ::placeholder {
-    text-align: center;
-  }
 `;
 
 const StyleButton = styled(Button)`
@@ -130,5 +107,16 @@ const StyleButton = styled(Button)`
     margin-bottom: 0px;
 
     transition: 0s;
+  }
+`;
+
+const DeleteButton = styled(StyleButton)`
+  background-color: #c72525;
+  color: white;
+  margin-top: 80px;
+
+  :hover {
+    margin-top: 85px;
+    background-color: #c72525;
   }
 `;

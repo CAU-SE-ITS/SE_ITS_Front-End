@@ -5,15 +5,9 @@ declare namespace User {
     password: string;
   }
 
-  export interface SignInResDto {
-    id: number;
-    role: Role;
-  }
+  export type SignInResDto = User;
 
-  export type LoadAccountListResDto = {
-    id: number;
-    role: Role;
-  }[];
+  export type LoadAccountListResDto = User[];
 
   /* export interface SignInResDto {
     accessToken: string;
@@ -22,6 +16,12 @@ declare namespace User {
 
   //Var
   export type Role = "ADMIN" | "PL" | "DEV" | "TESTER";
+
+  export interface User {
+    name: string;
+    id: number;
+    role: Role;
+  }
 
   //Form
   export interface AccountCreateForm {

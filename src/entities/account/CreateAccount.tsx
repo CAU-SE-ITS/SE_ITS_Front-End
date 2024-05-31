@@ -18,9 +18,14 @@ export const CreateAccount = () => {
   const [message, setMessage] = useState<false | string>(false);
 
   const onSubmit: SubmitHandler<User.AccountCreateForm> = (data) => {
-    if (data.password !== data.passwordCheck)
+    if (data.password !== data.passwordCheck) {
       setMessage("입력한 비밀번호가 동일하지 않습니다.");
-    if (!data.role) setMessage("직책을 선택하지 않았습니다.");
+      return;
+    }
+    if (!data.role) {
+      setMessage("직책을 선택하지 않았습니다.");
+      return;
+    }
     console.log(data);
   };
 
