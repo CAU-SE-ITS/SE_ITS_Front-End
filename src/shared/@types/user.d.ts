@@ -46,6 +46,8 @@ declare namespace User {
 
   export interface AccountStore {
     accounts: LoadAccountListResDto;
-    setAccounts: (account: LoadAccountListResDto) => void;
+    setAccounts: (accounts: LoadAccountListResDto) => void;
+    setAccount: (id: number, role: User.Role) => void;
+    deleteAccount: (id: number) => void;
   }
 }

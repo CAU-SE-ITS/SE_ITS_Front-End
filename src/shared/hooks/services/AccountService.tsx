@@ -6,8 +6,10 @@ import { useAccountStore } from "@/shared";
 
 export const AccountService = () => {
   const setAccounts = useAccountStore((state) => state.setAccounts);
+  const setAccount = useAccountStore((state) => state.setAccount);
+  const setDeleteAccount = useAccountStore((state) => state.deleteAccount);
 
-  const URL = "ap/v1/member/account";
+  const URL = "api/v1/member/account";
 
   const loadAllAccountList = async () => {
     const { data } = (await API.get(
@@ -18,15 +20,19 @@ export const AccountService = () => {
   };
 
   const editAccount = async (id: number, role: User.Role) => {
-    await API.post(`${URL}`, {
+    await API.put(`${URL}/update`, {
       data: { id: id, role: role },
     });
+
+    setAccount(id, role);
   };
 
   const deleteAccount = async (id: number) => {
-    await API.delete(`${URL}`, {
+    await API.put(`${URL}/delete`, {
       data: { id: id },
     });
+
+    setDeleteAccount(id);
   };
 
   return { loadAllAccountList, deleteAccount, editAccount };

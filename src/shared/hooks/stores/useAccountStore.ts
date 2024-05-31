@@ -8,4 +8,25 @@ export const useAccountStore = create<User.AccountStore>((set) => ({
   setAccounts: (accounts) => {
     set(() => ({ accounts: accounts }));
   },
+
+  setAccount: (id, role) => {
+    set((state) => {
+      if (state.accounts.find((user) => user.id === id))
+        state.accounts.find((user) => user.id === id)!.role = role;
+
+      return {};
+    });
+  },
+
+  deleteAccount: (id) => {
+    set((state) => {
+      if (state.accounts.find((user) => user.id === id))
+        state.accounts.splice(
+          state.accounts.findIndex((user) => user.id === id),
+          1
+        );
+
+      return {};
+    });
+  },
 }));
