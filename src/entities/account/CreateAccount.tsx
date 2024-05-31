@@ -12,7 +12,7 @@ const options = [
   { value: "TESTER", label: "TESTER" },
 ];
 
-export const AccountControl = () => {
+export const CreateAccount = () => {
   const { handleSubmit, register, setValue } =
     useForm<User.AccountCreateForm>();
   const [message, setMessage] = useState<false | string>(false);

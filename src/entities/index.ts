@@ -11,4 +11,5 @@ export { StatusMessage } from "./StatusMessage";
 
 export { Projects } from "./project/Projects";
 export { Accounts } from "./account/Accounts";
-export { AccountControl } from "./account/AccountControl";
+export { CreateAccount } from "./account/CreateAccount";
+export { EditAccount } from "./account/EditAccount";

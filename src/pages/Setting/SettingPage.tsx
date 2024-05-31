@@ -1,9 +1,9 @@
-import { Projects, Accounts, Container, AccountControl } from "@/entities";
+import { Projects, Accounts, Container, CreateAccount } from "@/entities";
 
 const SettingPage = () => {
   return (
     <>
-      <AccountControl></AccountControl>
+      <CreateAccount></CreateAccount>
       <Container>
         <Accounts></Accounts>
         <Projects></Projects>

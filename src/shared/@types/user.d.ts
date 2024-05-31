@@ -10,6 +10,11 @@ declare namespace User {
     role: Role;
   }
 
+  export type LoadAccountListResDto = {
+    id: number;
+    role: Role;
+  }[];
+
   /* export interface SignInResDto {
     accessToken: string;
     refreshToken: string;
@@ -26,11 +31,20 @@ declare namespace User {
     role: Role;
   }
 
+  export interface AccountEditForm {
+    role: Role;
+  }
+
   //Store
-  export interface userStore {
+  export interface UserStore {
     isSignIn: boolean;
     userId: number;
     role: Role;
     signIn: (data: SignInResDto) => void;
+  }
+
+  export interface AccountStore {
+    accounts: LoadAccountListResDto;
+    setAccounts: (account: LoadAccountListResDto) => void;
   }
 }

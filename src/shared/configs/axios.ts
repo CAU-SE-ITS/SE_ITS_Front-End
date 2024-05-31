@@ -10,7 +10,7 @@ export const API = axios.create({
 
 //Auth
 export const setAccess = (token: number): unknown =>
-  (API.defaults.headers["Authorization"] = token);
+  (API.defaults.headers["memberId"] = token);
 
 /* export const resetAccess = (): unknown =>
   delete API.defaults.headers["Authorization"];
