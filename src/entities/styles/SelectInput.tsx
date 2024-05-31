@@ -2,8 +2,8 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 
 interface SelectInputProps {
-  options: { value: string; label: string }[];
-  onChange: (value: User.Role) => void;
+  options: { value: string | number; label: string }[];
+  onChange: (value: User.Role | number) => void;
   placeholder?: string;
 }
 
@@ -51,12 +51,12 @@ const StyledSelect = styled.select`
   font-size: 16px;
   text-align: center;
 
-  border: 2px solid #9797ff;
+  border: 2px solid #5d5dff;
   border-radius: 3px;
   color: gray;
 
   :focus {
-    border: 2px solid #9797ff;
+    border: 2px solid #5d5dff;
     border-radius: 3px;
   }
 `;

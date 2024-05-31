@@ -10,8 +10,10 @@ export const Accounts = () => {
   const accounts = useAccountStore((state) => state.accounts);
 
   useEffect(() => {
-    //loadAllAccountList();
+    loadAllAccountList();
   }, []);
+
+  console.log(accounts);
 
   return (
     <>

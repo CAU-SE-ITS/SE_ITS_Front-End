@@ -22,7 +22,7 @@ export const AccountService = () => {
 
   const addAccount = async (body: User.SignUpRepDto) => {
     const { data } = (await API.post(
-      `${URL}/signin`,
+      `${URL}/signUp`,
       body
     )) as AxiosResponse<User.User>;
 
@@ -39,7 +39,7 @@ export const AccountService = () => {
 
   const deleteAccount = async (id: number) => {
     await API.put(`${URL}/account/delete`, {
-      data: { id: id },
+      id: id,
     });
 
     setDeleteAccount(id);

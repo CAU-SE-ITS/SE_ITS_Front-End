@@ -11,7 +11,12 @@ declare namespace Project {
   export interface Issue {
     id: number;
   }
+
   //Form
+  export interface ProjectCreateFrom {
+    name: string;
+  }
+
   //Store
   export interface ProjectStore {
     projects: Project[];

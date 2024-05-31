@@ -1,44 +1,41 @@
 import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
-export const useProjectStore = create<Project.ProjectStore>((set) => ({
-  projects: [],
+export const useProjectStore = create<Project.ProjectStore>()(
+  immer((set) => ({
+    projects: [],
 
-  setProjects: (projects) => {
-    set(() => ({ projects: projects }));
-  },
+    setProjects: (projects) => {
+      set(() => ({ projects: projects }));
+    },
 
-  addProject: (project) => {
-    set((state) => {
-      state.projects.push(project);
+    addProject: (project) => {
+      set((state) => {
+        state.projects.push(project);
+      });
+    },
 
-      return {};
-    });
-  },
+    setProjectMember: (id, user, type) => {
+      set((state) => {
+        const project = state.projects.find((project) => project.id === id);
 
-  setProjectMember: (id, user, type) => {
-    set((state) => {
-      const project = state.projects.find((project) => project.id === id);
+        if (type === "ADD") project?.members.push(user);
+        else if (type === "DELETE")
+          project?.members.splice(
+            project?.members.findIndex((member) => member.id === user.id),
+            1
+          );
+      });
+    },
 
-      if (type === "ADD") project?.members.push(user);
-      else if (type === "DELETE")
-        project?.members.splice(
-          project?.members.findIndex((member) => member.id === user.id),
-          1
+    deleteProject: (id: number) => {
+      set((state) => {
+        const projectIndex = state.projects.findIndex(
+          (project) => project.id === id
         );
 
-      return {};
-    });
-  },
-
-  deleteProject: (id: number) => {
-    set((state) => {
-      const projectIndex = state.projects.findIndex(
-        (project) => project.id === id
-      );
-
-      if (projectIndex !== -1) state.projects.splice(projectIndex, 1);
-
-      return {};
-    });
-  },
-}));
+        if (projectIndex !== -1) state.projects.splice(projectIndex, 1);
+      });
+    },
+  }))
+);

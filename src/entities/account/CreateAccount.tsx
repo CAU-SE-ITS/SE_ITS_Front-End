@@ -32,6 +32,7 @@ export const CreateAccount = ({ onClose }: { onClose: () => void }) => {
       setMessage("직책을 선택하지 않았습니다.");
       return;
     }
+
     addAccount({
       signId: data.id,
       name: data.name,
@@ -42,8 +43,8 @@ export const CreateAccount = ({ onClose }: { onClose: () => void }) => {
     onClose();
   };
 
-  const handleSelectChange = (value: User.Role) => {
-    setValue("role", value);
+  const handleSelectChange = (value: User.Role | number) => {
+    setValue("role", value as User.Role);
   };
 
   return (
@@ -105,7 +106,7 @@ const Input = styled.input`
   width: 80%;
   height: 45px;
 
-  border: 2px solid #9797ff;
+  border: 2px solid #5d5dff;
   border-radius: 3px;
 
   outline: none;
