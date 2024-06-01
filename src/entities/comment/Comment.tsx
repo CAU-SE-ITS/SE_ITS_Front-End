@@ -24,7 +24,7 @@ const Writer = styled.div`
   width: 430px;
   margin: 7px 0px 1px 0px;
 
-  background-color: #404ee2;
+  background-color: #656565;
   border-radius: 2px;
 
   height: 30px;
@@ -32,6 +32,9 @@ const Writer = styled.div`
   font-size: 15px;
   font-weight: bold;
   color: white;
+
+  margin-top: 10px;
+  margin-bottom: 3px;
 
   display: flex;
   justify-content: center;
@@ -44,9 +47,9 @@ const Content = styled.div`
 
   background-color: #eaeaea;
   border-radius: 2px;
-  border: 5px 5px 5px 5px;
+  border: 5px solid #eaeaea;
 
-  font-size: 10px;
+  font-size: 14px;
   font-weight: bold;
 
   display: flex;

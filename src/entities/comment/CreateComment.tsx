@@ -41,7 +41,7 @@ export const CreateComment = ({ onClose }: { onClose: () => void }) => {
         />
       ) : null}
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Title>댓글 생성</Title>
+        <Title>댓글 작성</Title>
         <Input placeholder="프로젝트 이름" {...register("title")} />
         <Textarea placeholder="프로젝트 설명" {...register("description")} />
         <StyleButton type="submit" variant="contained">

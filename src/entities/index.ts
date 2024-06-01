@@ -14,8 +14,11 @@ export { CreateProject } from "./project/CreateProject";
 export { ProjectControl } from "./project/ProjectControl";
 
 export { CreateIssue } from "./issue/CreateIssue";
+export { AssigneeControl } from "./issue/AssigneeControl";
+export { IssueControl } from "./issue/IssueControl";
 
 export { CreateComment } from "./comment/CreateComment";
+export { Comment } from "./comment/Comment";
 
 export { Accounts } from "./account/Accounts";
 export { CreateAccount } from "./account/CreateAccount";

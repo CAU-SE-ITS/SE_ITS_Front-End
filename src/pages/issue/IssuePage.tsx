@@ -5,9 +5,11 @@ import { useNavigate, useLocation } from "react-router";
 import {
   ScrollArea,
   Element,
+  Comment,
   CreateComment,
   Container,
-  ProjectControl,
+  AssigneeControl,
+  IssueControl,
 } from "@/entities";
 import { ProjectService, useProjectStore, PAGE_URL } from "@/shared";
 
@@ -32,20 +34,20 @@ const IssuePage = () => {
         />
       )}
 
+      <IssueControl />
       <ScrollArea
         title="댓글"
         createClick={() => {
           setOnCreate(true);
         }}
       >
-        {project &&
-          project.issues.map((issue) => (
-            <Element key={project.id} onClick={() => {}}>
-              {`${issue.title} [${issue.id}] [${issue.state}/${issue.priority}]`}
-            </Element>
-          ))}
+        <Comment
+          writer="강민규"
+          content="댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글"
+        />
+        <Comment writer="강민규" content="댓글" />
       </ScrollArea>
-      <ProjectControl />
+      <AssigneeControl />
     </Container>
   );
 };
