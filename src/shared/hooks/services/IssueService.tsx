@@ -15,13 +15,15 @@ export const IssueService = () => {
   const addComment = useIssueStore((state) => state.addComment);
   const deleteComment = useIssueStore((state) => state.deleteComment);
 
-  /*   const loadIssue = async () => {
-    const { data } = (await API.get(`${URL}`)) as AxiosResponse<Issue.Issue>;
+  const loadIssue = async (id: number) => {
+    const { data } = (await API.get(`${URL}`, {
+      headers: { issueId: id },
+    })) as AxiosResponse<Issue.Issue>;
 
     setIssue(data);
   };
 
-  const changeAssignee = async (id); */
+  /*   cconst changeAssignee = async (id); */
 
-  return {};
+  return { loadIssue };
 };

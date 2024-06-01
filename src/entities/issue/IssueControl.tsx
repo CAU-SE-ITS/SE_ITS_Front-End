@@ -16,9 +16,13 @@ import {
   useAccountStore,
   ProjectService,
   useProjectStore,
+  useIssueStore,
 } from "@/shared";
 
 export const IssueControl = () => {
+  const issue = useIssueStore((state) => state);
+
+  //Before
   const [options, setOptions] = useState<
     {
       value: number;
@@ -69,7 +73,18 @@ export const IssueControl = () => {
   };
 
   return (
-    <SmallScrollArea title="이슈 정보">
+    <SmallScrollArea title={`[${issue.title}] 이슈 정보`}>
+      <DesriptionBox>
+        <DescriptionrContainer>"{issue.description}"</DescriptionrContainer>
+      </DesriptionBox>
+      <State>
+        <div style={{ marginBottom: "-14px" }}>{issue.state}</div>
+        <SelectInput
+          options={options}
+          onChange={handleSelectChange}
+          placeholder="프로젝트 담당자 설정 선택"
+        />
+      </State>
       <Title>프로젝트 담당자 설정</Title>
       <SelectInput
         options={options}
@@ -109,6 +124,64 @@ const Title = styled.div`
 
   margin-top: 26px;
   margin-bottom: -10px;
+`;
+
+const DesriptionBox = styled.div`
+  position: relative;
+
+  width: 365px;
+  height: 70px;
+  background-color: #3030b8;
+  border: 10px solid #3030b8;
+
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 5px;
+
+  border-radius: 3px;
+
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #dcdcdc;
+  }
+`;
+
+const DescriptionrContainer = styled.div`
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  color: white;
+`;
+
+const State = styled.div`
+  position: relative;
+
+  width: 365px;
+  height: 50px;
+
+  background-color: #b13b3b;
+  border: 10px solid #b13b3b;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-top: 5px;
+
+  border-radius: 3px;
 `;
 
 const MemberBox = styled.div`

@@ -11,14 +11,13 @@ import {
   AssigneeControl,
   IssueControl,
 } from "@/entities";
-import { ProjectService, useProjectStore, PAGE_URL } from "@/shared";
+
+import { IssueService, useIssueStore, PAGE_URL } from "@/shared";
 
 const IssuePage = () => {
   const [onCreate, setOnCreate] = useState(false);
 
-  const project = useProjectStore((state) => state.project);
-  const setProject = useProjectStore((state) => state.setProject);
-  const { loadProject } = ProjectService();
+  const issue = useIssueStore((state) => state);
 
   useEffect(() => {
     //loadProject(location.state.id);

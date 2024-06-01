@@ -8,7 +8,7 @@ declare namespace Issue {
     state: State;
     reporter: User.User;
     reporterDate: string;
-    fixed: User.User | undefined;
+    fixer: User.User | undefined;
     assignee: User.User | undefined;
     comments: Comment[];
   }
