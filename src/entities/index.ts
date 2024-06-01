@@ -11,9 +11,11 @@ export { StatusMessage } from "./StatusMessage";
 
 export { Projects } from "./project/Projects";
 export { CreateProject } from "./project/CreateProject";
-export { ProjectMembers } from "./project/ProjectControl";
+export { ProjectControl } from "./project/ProjectControl";
 
 export { CreateIssue } from "./issue/CreateIssue";
+
+export { CreateComment } from "./comment/CreateComment";
 
 export { Accounts } from "./account/Accounts";
 export { CreateAccount } from "./account/CreateAccount";

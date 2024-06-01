@@ -7,7 +7,7 @@ import {
   Element,
   CreateIssue,
   Container,
-  ProjectMembers,
+  ProjectControl,
 } from "@/entities";
 import { ProjectService, useProjectStore, PAGE_URL } from "@/shared";
 
@@ -46,7 +46,7 @@ const ProjectPage = () => {
             </Element>
           ))}
       </ScrollArea>
-      <ProjectMembers />
+      <ProjectControl />
     </Container>
   );
 };

@@ -5,9 +5,9 @@ import { useNavigate, useLocation } from "react-router";
 import {
   ScrollArea,
   Element,
-  CreateIssue,
+  CreateComment,
   Container,
-  ProjectMembers,
+  ProjectControl,
 } from "@/entities";
 import { ProjectService, useProjectStore, PAGE_URL } from "@/shared";
 
@@ -25,7 +25,7 @@ const IssuePage = () => {
   return (
     <Container>
       {onCreate && (
-        <CreateIssue
+        <CreateComment
           onClose={() => {
             setOnCreate(false);
           }}
@@ -33,7 +33,7 @@ const IssuePage = () => {
       )}
 
       <ScrollArea
-        title="이슈"
+        title="댓글"
         createClick={() => {
           setOnCreate(true);
         }}
@@ -45,7 +45,7 @@ const IssuePage = () => {
             </Element>
           ))}
       </ScrollArea>
-      <ProjectMembers />
+      <ProjectControl />
     </Container>
   );
 };

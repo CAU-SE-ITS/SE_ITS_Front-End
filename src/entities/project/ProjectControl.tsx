@@ -18,7 +18,7 @@ import {
   useProjectStore,
 } from "@/shared";
 
-export const ProjectMembers = () => {
+export const ProjectControl = () => {
   const [options, setOptions] = useState<
     {
       value: number;
