@@ -34,6 +34,8 @@ declare namespace Issue {
     setIssue: (issue: Issue) => void;
     setState: (newState: State) => void;
     setPriority: (priority: Priority) => void;
+    setReporter: (user: User) => void;
+    setAssignee: (user: User) => void;
     addComment: (comment: Comment) => void;
     deleteComment: (id: number) => void;
   }

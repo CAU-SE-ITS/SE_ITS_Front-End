@@ -24,6 +24,18 @@ export const useIssueStore = create<Issue.IssueStore>()(
       });
     },
 
+    setReporter: (user) => {
+      set((state) => {
+        state.reporter = user;
+      });
+    },
+
+    setAssignee: (user) => {
+      set((state) => {
+        state.assignee = user;
+      });
+    },
+
     setPriority: (priority) => {
       set((state) => {
         state.priority = priority;
