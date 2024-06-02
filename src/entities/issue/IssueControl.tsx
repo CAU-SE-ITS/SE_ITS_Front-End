@@ -10,6 +10,7 @@ import {
   InnerSelectInput,
   StatusMessage,
   SmallScrollArea,
+  SelectInput,
 } from "@/entities";
 import {
   AccountService,
@@ -63,20 +64,17 @@ export const IssueControl = () => {
     }
   };
 
-  const onDelete = (value: number) => {
-    if (project)
-      setProjectMember(
-        project.id,
-        project.members.find((member) => member.id === value)!,
-        "DELETE"
-      );
-  };
-
   return (
     <SmallScrollArea title={`[${issue.title}] 이슈 정보`}>
+      <Date>{`이슈 등록 시간 : ${issue.reporterDate.split("T")[0]} ${
+        issue.reporterDate.split("T")[1].split(".")[0]
+      }`}</Date>
+
       <DesriptionBox>
         <DescriptionrContainer>"{issue.description}"</DescriptionrContainer>
       </DesriptionBox>
+
+      <Title>이슈 상태</Title>
       <State>
         <div>{issue.state}</div>
         <InnerSelectInput
@@ -85,6 +83,14 @@ export const IssueControl = () => {
           placeholder="이슈 상태 변경"
         />
       </State>
+
+      <Date style={{ backgroundColor: "#831717", borderColor: "#831717" }}>{`${
+        issue.fixer
+          ? `해당 이슈는 ${issue.fixer.name}에 의하여 닫혔습니다.}`
+          : `해당 이슈는 아직 닫히지 않았습니다.`
+      }`}</Date>
+
+      <Title>이슈 우선순위</Title>
       <Priority>
         <div>{issue.priority}</div>
         <InnerSelectInput
@@ -94,47 +100,51 @@ export const IssueControl = () => {
         />
       </Priority>
 
-      <Title>프로젝트 담당자 설정</Title>
-      <MemberBox>
-        <MemberContainer>
-          {project
-            ? project.members.map((member) => {
-                return (
-                  <div key={member.id}>
-                    <Member>
-                      {`${member.name} [${member.role}] [${member.id}]`}
-                      <MemberDelete
-                        onClick={() => {
-                          onDelete(member.id);
-                        }}
-                      />
-                    </Member>
-                  </div>
-                );
-              })
-            : null}
-        </MemberContainer>
-      </MemberBox>
-      <Title>프로젝트 삭제</Title>
-      <DeleteButton>삭제하기</DeleteButton>
+      <Title>이슈 관리자</Title>
+      <Reporter>
+        <div>{`${issue.reporter.name} [${issue.reporter.id}] `}</div>
+        <InnerSelectInput
+          options={options}
+          onChange={handleSelectChange}
+          placeholder="이슈 관리자 변경"
+        />
+      </Reporter>
     </SmallScrollArea>
   );
 };
 
 const Title = styled.div`
-  font-size: 23px;
+  font-size: 21px;
   font-weight: bold;
   color: #2f3542;
 
-  margin-top: 26px;
-  margin-bottom: -10px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+`;
+
+const Date = styled.div`
+  position: relative;
+
+  width: 365px;
+  height: 20px;
+  background-color: #3030b8;
+  border: 10px solid #3030b8;
+
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 5px;
+
+  border-radius: 3px;
+
+  color: white;
+  font-weight: bold;
 `;
 
 const DesriptionBox = styled.div`
   position: relative;
 
   width: 365px;
-  height: 70px;
+  height: 90px;
   background-color: #3030b8;
   border: 10px solid #3030b8;
 
@@ -195,95 +205,7 @@ const Priority = styled(State)`
   border: 10px solid #ffbb00;
 `;
 
-const MemberBox = styled.div`
-  position: relative;
-  background-color: white;
-
-  width: 80%;
-  height: 200px;
-  background-color: #5d5dff;
-  border: 3.5px solid #5d5dff;
-
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-top: 10px;
-
-  border-radius: 3px;
-
-  overflow-y: auto;
-
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: #2f3542;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: #dcdcdc;
-  }
-`;
-
-const MemberContainer = styled.div`
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const MemberDelete = styled(BackspaceIcon)`
-  position: absolute;
-  right: 10px;
-`;
-
-const Member = styled.div`
-  position: relative;
-
-  background-color: white;
-
-  width: 290px;
-  height: 40px;
-
-  border-radius: 3px;
-
-  margin-top: 8px;
-  margin-bottom: 3px;
-
-  color: #5d5dff;
-  font-size: 16px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const DeleteButton = styled(Button)`
-  font-size: 17px;
-  font-weight: bold;
-  color: white;
-  width: 82%;
-  height: 50px;
-
-  background-color: #c72525;
-
-  border: 0px;
-
-  box-shadow: 0px 5px 0 -0.5px black;
-
-  margin-top: 24px;
-  margin-bottom: 5px;
-
-  transition: opacity 1s linear;
-
-  :hover {
-    background-color: #c72525;
-
-    border: 0px;
-
-    box-shadow: 0 0 0 0 black;
-    margin-top: 29px;
-    margin-bottom: 0px;
-
-    transition: 0s;
-  }
+const Reporter = styled(State)`
+  background-color: #00c30d;
+  border: 10px solid #00c30d;
 `;

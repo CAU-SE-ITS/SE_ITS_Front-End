@@ -35,7 +35,7 @@ const IssuePage = () => {
 
       <IssueControl />
       <ScrollArea
-        title="댓글"
+        title="변경 사항 & 댓글"
         createClick={() => {
           setOnCreate(true);
         }}

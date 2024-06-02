@@ -42,7 +42,7 @@ const ProjectPage = () => {
         {project &&
           project.issues.map((issue) => (
             <Element key={project.id} onClick={() => {}}>
-              {`${issue.title} [${issue.id}] [${issue.state}/${issue.priority}]`}
+              {`${issue.title} [${issue.state}/${issue.priority}] [${issue.assignee}]`}
             </Element>
           ))}
       </ScrollArea>
