@@ -7,7 +7,7 @@ import BackspaceIcon from "@mui/icons-material/Backspace";
 
 import {
   GrayBackground,
-  SelectInput,
+  InnerSelectInput,
   StatusMessage,
   SmallScrollArea,
 } from "@/entities";
@@ -78,19 +78,23 @@ export const IssueControl = () => {
         <DescriptionrContainer>"{issue.description}"</DescriptionrContainer>
       </DesriptionBox>
       <State>
-        <div style={{ marginBottom: "-14px" }}>{issue.state}</div>
-        <SelectInput
+        <div>{issue.state}</div>
+        <InnerSelectInput
           options={options}
           onChange={handleSelectChange}
-          placeholder="프로젝트 담당자 설정 선택"
+          placeholder="이슈 상태 변경"
         />
       </State>
+      <Priority>
+        <div>{issue.priority}</div>
+        <InnerSelectInput
+          options={options}
+          onChange={handleSelectChange}
+          placeholder="이슈 우선순위 변경"
+        />
+      </Priority>
+
       <Title>프로젝트 담당자 설정</Title>
-      <SelectInput
-        options={options}
-        onChange={handleSelectChange}
-        placeholder="프로젝트 담당자 설정 선택"
-      />
       <MemberBox>
         <MemberContainer>
           {project
@@ -167,21 +171,28 @@ const State = styled.div`
   position: relative;
 
   width: 365px;
-  height: 50px;
+  height: 28px;
 
   background-color: #b13b3b;
   border: 10px solid #b13b3b;
 
   color: white;
+  font-size: 22px;
+  font-weight: bold;
 
   display: flex;
   align-items: center;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
 
   margin-top: 5px;
 
   border-radius: 3px;
+`;
+
+const Priority = styled(State)`
+  background-color: #ffbb00;
+  border: 10px solid #ffbb00;
 `;
 
 const MemberBox = styled.div`

@@ -8,7 +8,7 @@ export const Element = styled.div`
   background-color: #eaeaea;
   border-radius: 2px;
 
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 
   display: flex;

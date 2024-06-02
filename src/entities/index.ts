@@ -4,7 +4,7 @@ export { Logo } from "./styles/Logo";
 export { ScrollArea, SmallScrollArea } from "./styles/ScrollArea";
 export { Element } from "./styles/Element";
 export { GrayBackground } from "./styles/GrayBackground";
-export { SelectInput } from "./styles/SelectInput";
+export { SelectInput, InnerSelectInput } from "./styles/SelectInput";
 
 export { Loading } from "./Loading";
 export { StatusMessage } from "./StatusMessage";
