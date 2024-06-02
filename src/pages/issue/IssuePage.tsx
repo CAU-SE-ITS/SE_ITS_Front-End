@@ -32,7 +32,6 @@ const IssuePage = () => {
           }}
         />
       )}
-
       <IssueControl />
       <ScrollArea
         title="변경 사항 & 댓글"
@@ -40,11 +39,13 @@ const IssuePage = () => {
           setOnCreate(true);
         }}
       >
-        <Comment
-          writer="강민규"
-          content="댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글"
-        />
-        <Comment writer="강민규" content="댓글" />
+        {issue.comments.map((comment) => (
+          <Comment
+            id={comment.id}
+            writer={comment.member}
+            content={comment.content}
+          />
+        ))}
       </ScrollArea>
       <AssigneeControl />
     </Container>

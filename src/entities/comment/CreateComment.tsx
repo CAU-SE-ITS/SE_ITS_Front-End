@@ -13,20 +13,25 @@ import {
   useProjectStore,
 } from "@/shared";
 
-export const CreateComment = ({ onClose }: { onClose: () => void }) => {
-  const { handleSubmit, register } = useForm<Issue.CreateIssueForm>();
+export const CreateComment = ({
+  onClose,
+  edit,
+}: {
+  onClose: () => void;
+  edit?: boolean;
+}) => {
+  const { handleSubmit, register } = useForm<{ content: string }>();
   const [message, setMessage] = useState<false | string>(false);
 
   const project = useProjectStore((state) => state.project);
 
-  const onSubmit: SubmitHandler<Issue.CreateIssueForm> = (data) => {
-    if (!data.title || !data.description) {
-      setMessage("모든 정보를 입력해주세요.");
+  const onSubmit: SubmitHandler<{ content: string }> = (data) => {
+    if (!data.content) {
+      setMessage("댓글을 입력해주세요.");
       return;
     }
 
     console.log(data);
-    project && console.log(project.id);
 
     onClose();
   };
@@ -41,12 +46,13 @@ export const CreateComment = ({ onClose }: { onClose: () => void }) => {
         />
       ) : null}
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Title>댓글 작성</Title>
-        <Input placeholder="프로젝트 이름" {...register("title")} />
-        <Textarea placeholder="프로젝트 설명" {...register("description")} />
+        <Title>{edit ? "댓글 수정" : "댓글 작성"}</Title>
+        <Textarea placeholder="댓글을 작성해주세요." {...register("content")} />
         <StyleButton type="submit" variant="contained">
-          등록하기
+          {edit ? "댓글 변경" : "댓글 작성"}
         </StyleButton>
+
+        {edit ? <DeleteButton>삭제하기</DeleteButton> : null}
       </Form>
     </GrayBackground>
   );
@@ -139,6 +145,37 @@ const StyleButton = styled(Button)`
 
     box-shadow: 0 0 0 0 black;
     margin-top: 70px;
+    margin-bottom: 0px;
+
+    transition: 0s;
+  }
+`;
+
+const DeleteButton = styled(Button)`
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+  width: 82%;
+  height: 50px;
+
+  background-color: #c72525;
+
+  border: 0px;
+
+  box-shadow: 0px 5px 0 -0.5px black;
+
+  margin-top: 24px;
+  margin-bottom: 5px;
+
+  transition: opacity 1s linear;
+
+  :hover {
+    background-color: #c72525;
+
+    border: 0px;
+
+    box-shadow: 0 0 0 0 black;
+    margin-top: 29px;
     margin-bottom: 0px;
 
     transition: 0s;

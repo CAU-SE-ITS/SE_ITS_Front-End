@@ -8,6 +8,7 @@ import {
   CreateIssue,
   Container,
   ProjectControl,
+  SearchIssue,
 } from "@/entities";
 import { ProjectService, useProjectStore, PAGE_URL } from "@/shared";
 
@@ -32,17 +33,17 @@ const ProjectPage = () => {
           }}
         />
       )}
-
       <ScrollArea
         title="이슈"
         createClick={() => {
           setOnCreate(true);
         }}
       >
+        <SearchIssue />
         {project &&
           project.issues.map((issue) => (
-            <Element key={project.id} onClick={() => {}}>
-              {`${issue.title} [${issue.state}/${issue.priority}] [${issue.assignee}]`}
+            <Element key={issue.id} onClick={() => {}}>
+              {`${issue.title} [${issue.state}/${issue.priority}] [${issue.assignee?.name}]`}
             </Element>
           ))}
       </ScrollArea>

@@ -1,19 +1,53 @@
 import styled from "@emotion/styled";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { useState } from "react";
+
+import { CreateComment } from "./CreateComment";
 
 export const Comment = ({
+  id,
   writer,
   content,
 }: {
-  writer: string;
+  id: number;
+  writer: User.User;
   content: string;
-}) => (
-  <Container>
-    <Writer>{writer}</Writer>
-    <Content>{content}</Content>
-  </Container>
-);
+}) => {
+  const [onEdit, setOnEdit] = useState(false);
+  return (
+    <Container>
+      {onEdit && (
+        <CreateComment
+          onClose={() => {
+            setOnEdit(false);
+          }}
+          edit
+        />
+      )}
+
+      <MemberDelete
+        onClick={() => {
+          setOnEdit(true);
+        }}
+      />
+      <Writer>{writer.name}</Writer>
+      <Content>{content}</Content>
+    </Container>
+  );
+};
+
+const MemberDelete = styled(ModeEditIcon)`
+  position: absolute;
+  font-size: 23px;
+
+  top: 13.5px;
+  right: 6px;
+
+  color: white;
+`;
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
