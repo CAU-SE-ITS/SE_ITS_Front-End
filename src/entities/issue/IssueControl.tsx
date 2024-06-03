@@ -47,6 +47,8 @@ export const IssueControl = () => {
   const issue = useIssueStore((state) => state);
   const userState = useUserStore((state) => state);
 
+  console.log(issue.priority);
+
   //Before
   /* const [options, setOptions] = useState<
     {
@@ -57,6 +59,7 @@ export const IssueControl = () => {
   //const [users, setUsers] = useState<User.User[]>([]);
 
   //const project = useProjectStore((state) => state.project);
+
   const {
     //getTester,
     updataIssue,
@@ -85,6 +88,7 @@ export const IssueControl = () => {
   }, [users]); */
 
   const handlePriority = (value: number | string) => {
+    console.log(value);
     updataIssue({
       issueId: issue.id,
       description: issue.description,
@@ -153,9 +157,7 @@ export const IssueControl = () => {
 
       <Priority>
         <div>{issue.priority}</div>
-        {userState.isPl() ||
-        userState.isAdmin() ||
-        (issue.assignee && userState.userId === issue.assignee.id) ? (
+        {userState.isPl() || userState.isAdmin() ? (
           <InnerSelectInput
             options={priorityOption}
             onChange={handlePriority}

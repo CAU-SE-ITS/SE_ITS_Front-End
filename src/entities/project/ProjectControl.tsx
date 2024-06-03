@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "@emotion/styled";
 
 import Button from "@mui/material/Button";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 
+import { SelectInput, SmallScrollArea, StatusMessage } from "@/entities";
 import {
-  GrayBackground,
-  SelectInput,
-  StatusMessage,
-  SmallScrollArea,
-} from "@/entities";
-import {
+  useUserStore,
   AccountService,
   useAccountStore,
   ProjectService,
@@ -25,11 +20,13 @@ export const ProjectControl = () => {
       label: string;
     }[]
   >([]);
+  const [message, setMessage] = useState<false | string>(false);
 
+  const isAdmin = useUserStore((state) => state.isAdmin);
   const users = useAccountStore((state) => state.accounts);
   const project = useProjectStore((state) => state.project);
   const { loadAllAccountList } = AccountService();
-  const { setProjectMember } = ProjectService();
+  const { setProjectMember, deleteProject } = ProjectService();
 
   useEffect(() => {
     loadAllAccountList();
@@ -41,12 +38,16 @@ export const ProjectControl = () => {
       label: string;
     }[] = [];
     users.map((user) => {
-      newOptions.push({ value: user.id, label: `${user.name} (${user.role})` });
+      if (user.role !== "PL" && user.role !== "ADMIN")
+        newOptions.push({
+          value: user.id,
+          label: `${user.name} (${user.role})`,
+        });
     });
     setOptions(newOptions);
   }, [users]);
 
-  const handleSelectChange = (value: number | User.Role) => {
+  const handleSelectChange = (value: number | string) => {
     if (
       project &&
       project.members.findIndex((member) => `${member.id}` === value) === -1
@@ -70,6 +71,13 @@ export const ProjectControl = () => {
 
   return (
     <SmallScrollArea title="프로젝트 설정">
+      {message ? (
+        <StatusMessage
+          message={message}
+          setMessage={setMessage}
+          duration={2000}
+        />
+      ) : null}
       <Title>프로젝트 담당자 설정</Title>
       <SelectInput
         options={options}
@@ -84,11 +92,13 @@ export const ProjectControl = () => {
                   <div key={member.id}>
                     <Member>
                       {`${member.name} [${member.role}] [${member.id}]`}
-                      <MemberDelete
-                        onClick={() => {
-                          onDelete(member.id);
-                        }}
-                      />
+                      {member.role !== "PL" ? (
+                        <MemberDelete
+                          onClick={() => {
+                            onDelete(member.id);
+                          }}
+                        />
+                      ) : null}
                     </Member>
                   </div>
                 );
@@ -97,7 +107,15 @@ export const ProjectControl = () => {
         </MemberContainer>
       </MemberBox>
       <Title>프로젝트 삭제</Title>
-      <DeleteButton>삭제하기</DeleteButton>
+      {isAdmin() ? (
+        <DeleteButton
+          onClick={() => {
+            if (project) deleteProject(project.id);
+          }}
+        >
+          삭제하기
+        </DeleteButton>
+      ) : null}
     </SmallScrollArea>
   );
 };

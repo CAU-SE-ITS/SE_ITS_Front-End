@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { CreateComment } from "./CreateComment";
 
+import { useUserStore } from "@/shared";
+
 export const Comment = ({
   id,
   writer,
@@ -14,6 +16,8 @@ export const Comment = ({
   content: string;
 }) => {
   const [onEdit, setOnEdit] = useState(false);
+  const userId = useUserStore((state) => state.userId);
+
   return (
     <Container>
       {onEdit && (
@@ -25,18 +29,20 @@ export const Comment = ({
         />
       )}
 
-      <MemberDelete
-        onClick={() => {
-          setOnEdit(true);
-        }}
-      />
-      <Writer>{writer.name}</Writer>
+      {userId === writer.id ? (
+        <EditButton
+          onClick={() => {
+            setOnEdit(true);
+          }}
+        />
+      ) : null}
+      <Writer>{writer.role === "ADMIN" ? "시스템" : writer.name}</Writer>
       <Content>{content}</Content>
     </Container>
   );
 };
 
-const MemberDelete = styled(ModeEditIcon)`
+const EditButton = styled(ModeEditIcon)`
   position: absolute;
   font-size: 23px;
 

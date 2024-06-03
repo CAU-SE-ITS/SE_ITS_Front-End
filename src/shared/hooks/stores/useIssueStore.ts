@@ -51,10 +51,10 @@ export const useIssueStore = create<Issue.IssueStore>()(
       });
     },
 
-    setPriority: (priority) => {
-      set((state) => {
-        state.priority = priority;
-      });
+    setPriority: (newPriority) => {
+      set(() => ({
+        priority: newPriority,
+      }));
     },
 
     addComment: (comment) => {

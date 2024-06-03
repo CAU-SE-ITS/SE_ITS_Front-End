@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router";
 
 import { Element, SelectInput, SmallScrollArea } from "@/entities";
-import { useProjectStore, useIssueStore, IssueService } from "@/shared";
+import {
+  useUserStore,
+  useProjectStore,
+  useIssueStore,
+  IssueService,
+  PAGE_URL,
+} from "@/shared";
 
 export const AssigneeControl = () => {
+  const navigate = useNavigate();
   const issue = useIssueStore((state) => state);
+  const userState = useUserStore((state) => state);
 
   //Before
   const [options, setOptions] = useState<
@@ -33,7 +42,7 @@ export const AssigneeControl = () => {
 
   useEffect(() => {
     loadOption();
-    //loadRecomend();
+    loadRecomend();
   }, []);
 
   useEffect(() => {
@@ -59,17 +68,25 @@ export const AssigneeControl = () => {
           ? `${issue.assignee.name} [${issue.assignee.role}] [${issue.assignee.id}] `
           : `담당 개발자가 지정되어 있지 않습니다`}
       </Assignee>
-      <Title>이슈 담당 개발자 설정</Title>
-      <SelectInput
-        options={options}
-        onChange={handleSelectChange}
-        placeholder="프로젝트 담당자 설정 선택"
-      />
+      {userState.isAdmin() || userState.isPl() ? (
+        <>
+          <Title>이슈 담당 개발자 설정</Title>
+          <SelectInput
+            options={options}
+            onChange={handleSelectChange}
+            placeholder="프로젝트 담당자 설정 선택"
+          />
+        </>
+      ) : null}
       <Title>개발자 추천</Title>
       <AssigneeSuggestionBox>
         <AssigneeSuggestionContainer>
           {recommendIssues.map((issue) => (
-            <Element>
+            <Element
+              onClick={() => {
+                navigate(PAGE_URL.Issue, { state: { id: issue.issue.id } });
+              }}
+            >
               <span
                 style={{
                   width: "73px",

@@ -46,9 +46,13 @@ const ProjectPage = () => {
       )}
       <ScrollArea
         title="이슈"
-        createClick={() => {
-          setOnCreate(true);
-        }}
+        createClick={
+          userState.isTester()
+            ? () => {
+                setOnCreate(true);
+              }
+            : undefined
+        }
       >
         <SearchIssue />
         {project &&
@@ -83,7 +87,7 @@ const ProjectPage = () => {
             ))}
         </ScrollArea>
       ) : null}
-      <ProjectControl />
+      {userState.isAdmin() || userState.isPl() ? <ProjectControl /> : null}
     </Container>
   );
 };

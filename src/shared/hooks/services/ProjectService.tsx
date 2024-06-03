@@ -68,7 +68,6 @@ export const ProjectService = () => {
     user: User.User,
     type: "DELETE" | "ADD"
   ) => {
-    console.log(user);
     if (type === "DELETE") {
       await API.put(`${URL}/${id}/member/delete`, {
         removeMemberId: user.id,

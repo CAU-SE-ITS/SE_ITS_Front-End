@@ -12,7 +12,7 @@ export const IssueService = () => {
   const setIssue = useIssueStore((state) => state.setIssue);
 
   const setStatus = useIssueStore((state) => state.setStatus);
-  const setPriority = useIssueStore((state) => state.setReporter);
+  const setPriority = useIssueStore((state) => state.setPriority);
   const setAssignee = useIssueStore((state) => state.setAssignee);
   const setReporter = useIssueStore((state) => state.setReporter);
   const addComment = useIssueStore((state) => state.addComment);
@@ -53,8 +53,8 @@ export const IssueService = () => {
   }) => {
     await API.put(`${URL}/update`, body);
 
-    setStatus(body.status);
     setPriority(body.priority);
+    setStatus(body.status);
   };
 
   const updataIssueDev = async (body: {
@@ -86,7 +86,7 @@ export const IssueService = () => {
   };
 
   const createComment = async (id: number, content: string) => {
-    const { data } = (await API.put(`${COMMENTURL}/create`, {
+    const { data } = (await API.post(`${COMMENTURL}/create`, {
       issueId: id,
       content: content,
     })) as AxiosResponse<Issue.Comment>;
