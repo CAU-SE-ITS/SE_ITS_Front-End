@@ -14,6 +14,7 @@ export const ProjectService = () => {
     (state) => state.setProjectMember
   );
   const setDeleteProject = useProjectStore((state) => state.deleteProject);
+  const setProjectIssues = useProjectStore((state) => state.setProjectIssues);
 
   const loadAllProjectList = async () => {
     const { data } = (await API.get(
@@ -29,6 +30,18 @@ export const ProjectService = () => {
     )) as AxiosResponse<Project.Project>;
 
     setProject(data);
+  };
+
+  const searchIssue = async (
+    category: string,
+    projectId: number,
+    keyword: string
+  ) => {
+    const { data } = (await API.get(
+      `${URL}/search?category=${category}&projectId=${projectId}&keyword=${keyword}`
+    )) as AxiosResponse<Issue.Issue[]>;
+
+    setProjectIssues(data);
   };
 
   const addProject = async (body: { name: string; memberIds: number[] }) => {
@@ -68,6 +81,7 @@ export const ProjectService = () => {
   return {
     loadAllProjectList,
     loadProject,
+    searchIssue,
     addProject,
     setProjectMember,
     deleteProject,

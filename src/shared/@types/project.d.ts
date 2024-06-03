@@ -20,6 +20,7 @@ declare namespace Project {
     project: Project | false;
     setProjects: (projects: LoadAccountListResDto) => void;
     setProject: (project: Project) => void;
+    setProjectIssues: (data: Issue.Issue[]) => void;
     addProject: (project: Project) => void;
     setProjectMember: (
       id: number,

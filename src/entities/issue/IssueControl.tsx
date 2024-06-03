@@ -18,10 +18,12 @@ import {
   ProjectService,
   useProjectStore,
   useIssueStore,
+  useUserStore,
 } from "@/shared";
 
 export const IssueControl = () => {
   const issue = useIssueStore((state) => state);
+  const userState = useUserStore((state) => state);
 
   //Before
   const [options, setOptions] = useState<
@@ -74,7 +76,7 @@ export const IssueControl = () => {
         <DescriptionrContainer>"{issue.description}"</DescriptionrContainer>
       </DesriptionBox>
 
-      <Title>이슈 상태</Title>
+      <Title>상태 & 우선순위</Title>
       <State>
         <div>{issue.state}</div>
         <InnerSelectInput
@@ -90,7 +92,6 @@ export const IssueControl = () => {
           : `해당 이슈는 아직 닫히지 않았습니다.`
       }`}</Date>
 
-      <Title>이슈 우선순위</Title>
       <Priority>
         <div>{issue.priority}</div>
         <InnerSelectInput
@@ -100,7 +101,7 @@ export const IssueControl = () => {
         />
       </Priority>
 
-      <Title>이슈 관리자</Title>
+      <Title>관리자</Title>
       <Reporter>
         <div>{`${issue.reporter.name} [${issue.reporter.id}] `}</div>
         <InnerSelectInput
@@ -109,6 +110,21 @@ export const IssueControl = () => {
           placeholder="이슈 관리자 변경"
         />
       </Reporter>
+
+      <Date
+        style={{
+          backgroundColor: "#831717",
+          borderColor: "#831717",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {userState.userId === issue.reporter.id
+          ? "이슈 삭제 요청 보내기"
+          : userState.isAdmin()
+          ? "이슈 삭제하기"
+          : null}
+      </Date>
     </SmallScrollArea>
   );
 };

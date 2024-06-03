@@ -16,6 +16,12 @@ export const useProjectStore = create<Project.ProjectStore>()(
       }));
     },
 
+    setProjectIssues: (data: Issue.Issue[]) => {
+      set((state) => {
+        if (state.project) state.project.issues = data;
+      });
+    },
+
     addProject: (project) => {
       set((state) => {
         state.projects.push(project);

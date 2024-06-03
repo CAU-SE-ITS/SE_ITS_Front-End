@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 
 interface SelectInputProps {
   options: { value: string | number; label: string }[];
-  onChange: (value: User.Role | number) => void;
+  onChange: (value: string | number) => void;
   placeholder?: string;
 }
 

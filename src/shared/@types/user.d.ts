@@ -49,6 +49,10 @@ declare namespace User {
     userId: number;
     role: Role;
     signIn: (data: SignInResDto) => void;
+    isAdmin: () => boolean;
+    isPl: () => boolean;
+    isDev: () => boolean;
+    isTester: () => boolean;
   }
 
   export interface AccountStore {

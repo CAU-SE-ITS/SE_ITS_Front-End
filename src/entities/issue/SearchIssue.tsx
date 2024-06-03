@@ -4,47 +4,45 @@ import styled from "@emotion/styled";
 
 import Button from "@mui/material/Button";
 
-import { GrayBackground, InnerSelectInput, StatusMessage } from "@/entities";
-import { AccountService } from "@/shared";
+import { InnerSelectInput, StatusMessage } from "@/entities";
+import { ProjectService, useProjectStore } from "@/shared";
 
 const options = [
-  { value: "PL", label: "PL" },
-  { value: "DEV", label: "DEV" },
-  { value: "TESTER", label: "TESTER" },
+  { value: "TITLE", label: "이름" },
+  { value: "STATUS", label: "상태" },
+  { value: "PRIORITY", label: "우선순위" },
+  { value: "ASSIGNEE", label: "담당 개발자" },
 ];
 
 export const SearchIssue = () => {
-  const { handleSubmit, register, setValue } =
-    useForm<User.AccountCreateForm>();
+  const { handleSubmit, register, setValue } = useForm<{
+    keyword: string;
+    category: string | number;
+  }>();
   const [message, setMessage] = useState<false | string>(false);
-  const { addAccount } = AccountService();
+  const { loadProject, searchIssue } = ProjectService();
+  const project = useProjectStore((state) => state.project);
 
-  const onSubmit: SubmitHandler<User.AccountCreateForm> = (data) => {
-    if (!data.password || !data.passwordCheck || !data.id || !data.name) {
-      setMessage("모든 정보를 입력해주세요.");
+  const onSubmit: SubmitHandler<{
+    keyword: string;
+    category: string | number;
+  }> = (data) => {
+    if (!project) return;
+
+    if (!data.keyword || data.keyword === "") {
+      loadProject(project.id);
       return;
     }
-    if (data.password !== data.passwordCheck) {
-      setMessage("입력한 비밀번호가 동일하지 않습니다.");
-      return;
-    }
-    if (!data.role) {
-      setMessage("직책을 선택하지 않았습니다.");
+    if (!data.category) {
+      setMessage("카테고리를 설정 해주세요.");
       return;
     }
 
-    addAccount({
-      signId: data.id,
-      name: data.name,
-      password: data.password,
-      role: data.role,
-    });
-
-    onClose();
+    searchIssue(data.category as string, project.id, data.keyword);
   };
 
-  const handleSelectChange = (value: User.Role | number) => {
-    setValue("role", value as User.Role);
+  const handleSelectChange = (value: string | number) => {
+    setValue("category", value);
   };
 
   return (
@@ -59,7 +57,10 @@ export const SearchIssue = () => {
 
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Title>이슈 검색</Title>
-        <Input placeholder="검색 내용을 입력해주세요.." {...register("id")} />
+        <Input
+          placeholder="검색 내용을 입력해주세요.."
+          {...register("keyword")}
+        />
         <div
           style={{
             marginTop: "5px",
