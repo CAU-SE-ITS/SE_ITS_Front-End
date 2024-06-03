@@ -48,32 +48,32 @@ export const IssueControl = () => {
   const userState = useUserStore((state) => state);
 
   //Before
-  const [options, setOptions] = useState<
+  /* const [options, setOptions] = useState<
     {
       value: number;
       label: string;
     }[]
-  >([]);
-  const [users, setUsers] = useState<User.User[]>([]);
+  >([]); */
+  //const [users, setUsers] = useState<User.User[]>([]);
 
-  const project = useProjectStore((state) => state.project);
+  //const project = useProjectStore((state) => state.project);
   const {
-    getTester,
+    //getTester,
     updataIssue,
     deleteIssue,
     requestDeleteIssue,
     updataIssueDev,
   } = IssueService();
 
-  const loadOption = async () => {
+  /* const loadOption = async () => {
     if (project) setUsers(await getTester(project.id));
-  };
+  }; */
 
-  useEffect(() => {
+  /* useEffect(() => {
     loadOption();
-  }, []);
+  }, []); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     const newOptions: {
       value: number;
       label: string;
@@ -82,7 +82,7 @@ export const IssueControl = () => {
       newOptions.push({ value: user.id, label: `${user.name} (${user.role})` });
     });
     setOptions(newOptions);
-  }, [users]);
+  }, [users]); */
 
   const handlePriority = (value: number | string) => {
     updataIssue({
@@ -111,7 +111,9 @@ export const IssueControl = () => {
 
   return (
     <SmallScrollArea title={`[${issue.title}] 이슈 정보`}>
-      <Category>{issue.category}</Category>
+      <Category>
+        {issue.category ? issue.category : "카테고리가 없습니다."}
+      </Category>
 
       {issue.id !== -1 ? (
         <Date>{`이슈 등록 시간 : ${issue.reportedDate.split("T")[0]} ${
@@ -162,7 +164,7 @@ export const IssueControl = () => {
         ) : null}
       </Priority>
 
-      <Title>관리자</Title>
+      <Title>담당 관리자</Title>
       <Reporter>
         <div>{`${issue.reporter.name} [${issue.reporter.id}] `}</div>
         {/* <InnerSelectInput
@@ -174,7 +176,15 @@ export const IssueControl = () => {
 
       <Date
         style={{
-          backgroundColor: "#831717",
+          backgroundColor: `${
+            userState.userId === issue.reporter.id
+              ? "#831717"
+              : userState.isAdmin() && issue.status === "DELETE_REQUEST"
+              ? "#831717"
+              : userState.isAdmin()
+              ? "#606060"
+              : "#606060"
+          }`,
           borderColor: `${
             userState.userId === issue.reporter.id
               ? "#831717"
@@ -306,4 +316,6 @@ const Priority = styled(State)`
 const Reporter = styled(State)`
   background-color: #00c30d;
   border: 10px solid #00c30d;
+
+  justify-content: center;
 `;

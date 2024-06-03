@@ -6,7 +6,7 @@ import { useIssueStore, useProjectStore } from "@/shared";
 
 export const IssueService = () => {
   const URL = "api/v1/issue";
-  const COMMENTUTL = "api/v1/comment";
+  const COMMENTURL = "api/v1/comment";
   const MEMBERURL = "api/v1/member/account/project/role";
 
   const setIssue = useIssueStore((state) => state.setIssue);
@@ -86,7 +86,7 @@ export const IssueService = () => {
   };
 
   const createComment = async (id: number, content: string) => {
-    const { data } = (await API.put(`${COMMENTUTL}/create`, {
+    const { data } = (await API.put(`${COMMENTURL}/create`, {
       issueId: id,
       content: content,
     })) as AxiosResponse<Issue.Comment>;
@@ -95,7 +95,7 @@ export const IssueService = () => {
   };
 
   const changeComment = async (id: number, content: string) => {
-    const { data } = (await API.put(`${COMMENTUTL}/update`, {
+    const { data } = (await API.put(`${COMMENTURL}/update`, {
       commentId: id,
       content: content,
     })) as AxiosResponse<Issue.Comment>;
@@ -104,11 +104,19 @@ export const IssueService = () => {
   };
 
   const removeComment = async (id: number) => {
-    const { data } = (await API.put(`${COMMENTUTL}/delete`, {
+    const { data } = (await API.put(`${COMMENTURL}/delete`, {
       commentId: id,
     })) as AxiosResponse<Issue.Comment>;
 
     deleteComment(data.id);
+  };
+
+  const recommendIssue = async (id: number) => {
+    const { data } = (await API.get(
+      `${URL}/issueRecommend?${id}`
+    )) as AxiosResponse<{ issue: Issue.Issue; score: number }[]>;
+
+    return data;
   };
 
   return {
@@ -123,5 +131,6 @@ export const IssueService = () => {
     createComment,
     changeComment,
     removeComment,
+    recommendIssue,
   };
 };

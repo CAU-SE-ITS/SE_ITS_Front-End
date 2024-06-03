@@ -1,26 +1,8 @@
 import { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "@emotion/styled";
 
-import Button from "@mui/material/Button";
-import BackspaceIcon from "@mui/icons-material/Backspace";
-
-import {
-  Element,
-  GrayBackground,
-  SelectInput,
-  StatusMessage,
-  SmallScrollArea,
-  InnerSelectInput,
-} from "@/entities";
-import {
-  AccountService,
-  useAccountStore,
-  ProjectService,
-  useProjectStore,
-  useIssueStore,
-  IssueService,
-} from "@/shared";
+import { Element, SelectInput, SmallScrollArea } from "@/entities";
+import { useProjectStore, useIssueStore, IssueService } from "@/shared";
 
 export const AssigneeControl = () => {
   const issue = useIssueStore((state) => state);
@@ -33,17 +15,25 @@ export const AssigneeControl = () => {
     }[]
   >([]);
   const [users, setUsers] = useState<User.User[]>([]);
+  const [recommendIssues, setRecommendIssues] = useState<
+    { issue: Issue.Issue; score: number }[]
+  >([]);
 
   const project = useProjectStore((state) => state.project);
 
-  const { getDev, changeAssignee } = IssueService();
+  const { getDev, changeAssignee, recommendIssue } = IssueService();
 
   const loadOption = async () => {
     if (project) setUsers(await getDev(project.id));
   };
 
+  const loadRecomend = async () => {
+    setRecommendIssues(await recommendIssue(issue.id));
+  };
+
   useEffect(() => {
     loadOption();
+    //loadRecomend();
   }, []);
 
   useEffect(() => {
@@ -69,41 +59,56 @@ export const AssigneeControl = () => {
           ? `${issue.assignee.name} [${issue.assignee.role}] [${issue.assignee.id}] `
           : `담당 개발자가 지정되어 있지 않습니다`}
       </Assignee>
-      <Title>개발자 추천</Title>
-      <AssigneeSuggestionBox>
-        <AssigneeSuggestionContainer>
-          <Element>
-            <span
-              style={{
-                width: "73px",
-                marginLeft: "6px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              {"강민규규"}
-            </span>
-            <span
-              style={{
-                width: "200px",
-                color: "#3030b8",
-                marginLeft: "10px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              연관성이 높은 이슈
-            </span>
-          </Element>
-        </AssigneeSuggestionContainer>
-      </AssigneeSuggestionBox>
-
       <Title>이슈 담당 개발자 설정</Title>
       <SelectInput
         options={options}
         onChange={handleSelectChange}
         placeholder="프로젝트 담당자 설정 선택"
       />
+      <Title>개발자 추천</Title>
+      <AssigneeSuggestionBox>
+        <AssigneeSuggestionContainer>
+          {recommendIssues.map((issue) => (
+            <Element>
+              <span
+                style={{
+                  width: "73px",
+                  marginLeft: "6px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {issue.issue.assignee
+                  ? issue.issue.assignee.name
+                  : "개발자 없음"}
+              </span>
+              <span
+                style={{
+                  width: "200px",
+                  color: "#3030b8",
+                  marginLeft: "px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {issue.issue.title}
+              </span>
+              <span
+                style={{
+                  width: "30px",
+                  color: "#3030b8",
+                  marginLeft: "5px",
+                  marginRight: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {`${issue.score}%`}
+              </span>
+            </Element>
+          ))}
+        </AssigneeSuggestionContainer>
+      </AssigneeSuggestionBox>
     </SmallScrollArea>
   );
 };
@@ -120,7 +125,7 @@ const Title = styled.div`
 const Assignee = styled.div`
   position: relative;
 
-  width: 321px;
+  width: 365px;
   height: 60px;
 
   background-color: #3030b8;
@@ -142,11 +147,11 @@ const Assignee = styled.div`
 const AssigneeSuggestionBox = styled.div`
   position: relative;
 
-  height: 200px;
+  height: 206px;
   background-color: white;
   border: 3px solid #3030b8;
 
-  width: 315px;
+  width: 365px;
 
   margin-left: 15px;
   margin-right: 15px;

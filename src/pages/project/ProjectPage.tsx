@@ -59,7 +59,7 @@ const ProjectPage = () => {
                 navigate(PAGE_URL.Issue, { state: { id: issue.id } });
               }}
             >
-              {`${issue.title} [${issue.state}/${issue.priority}] [${issue.assignee?.name}]`}
+              {`${issue.title} [${issue.status}/${issue.priority}] [${issue.assignee?.name}]`}
             </Element>
           ))}
       </ScrollArea>
@@ -78,7 +78,7 @@ const ProjectPage = () => {
                   navigate(PAGE_URL.Issue, { state: { id: issue.id } });
                 }}
               >
-                {`${issue.title} [${issue.state}/${issue.priority}] [${issue.assignee?.name}]`}
+                {`${issue.title} [${issue.status}/${issue.priority}] [${issue.assignee?.name}]`}
               </Element>
             ))}
         </ScrollArea>
