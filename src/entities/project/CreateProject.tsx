@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "@emotion/styled";
 
@@ -20,6 +20,8 @@ export const CreateProject = ({ onClose }: { onClose: () => void }) => {
     }[]
   >([]);
 
+  const includePl = useRef(false);
+
   const users = useAccountStore((state) => state.accounts);
   const { loadAllAccountList } = AccountService();
   const { addProject } = ProjectService();
@@ -33,14 +35,25 @@ export const CreateProject = ({ onClose }: { onClose: () => void }) => {
       value: number;
       label: string;
     }[] = [];
-    users.map((user) => {
-      newOptions.push({
-        value: user.id,
-        label: `${user.name} [${user.role}] [${user.id}]`,
+
+    if (includePl.current)
+      users.map((user) => {
+        if (user.role !== "PL")
+          newOptions.push({
+            value: user.id,
+            label: `${user.name} [${user.role}] [${user.id}]`,
+          });
       });
-    });
+    else
+      users.map((user) => {
+        newOptions.push({
+          value: user.id,
+          label: `${user.name} [${user.role}] [${user.id}]`,
+        });
+      });
+
     setOptions(newOptions);
-  }, [users]);
+  }, [users, includePl.current]);
 
   const onSubmit: SubmitHandler<Project.ProjectCreateFrom> = (data) => {
     if (!data.name) {
@@ -53,7 +66,13 @@ export const CreateProject = ({ onClose }: { onClose: () => void }) => {
     onClose();
   };
 
-  const handleSelectChange = (value: number | User.Role) => {
+  const handleSelectChange = (value: number | string) => {
+    if (
+      options
+        .find((option) => `${option.value}` === value)
+        ?.label.includes("PL")
+    )
+      includePl.current = true;
     if (members.findIndex((member) => `${member}` === value) === -1) {
       const newMembers = [...members];
       newMembers.push(`${value}`.match(/\d+/g)!.map(Number)[0]);
@@ -89,6 +108,7 @@ export const CreateProject = ({ onClose }: { onClose: () => void }) => {
                       {`${user.name} (${user.role})`}
                       <MemberDelete
                         onClick={() => {
+                          if (user.role === "PL") includePl.current = false;
                           const newMembers = [...members];
                           newMembers.splice(index, 1);
                           setMembers(newMembers);

@@ -106,15 +106,18 @@ export const ProjectControl = () => {
             : null}
         </MemberContainer>
       </MemberBox>
-      <Title>프로젝트 삭제</Title>
+
       {isAdmin() ? (
-        <DeleteButton
-          onClick={() => {
-            if (project) deleteProject(project.id);
-          }}
-        >
-          삭제하기
-        </DeleteButton>
+        <>
+          <Title>프로젝트 삭제</Title>
+          <DeleteButton
+            onClick={() => {
+              if (project) deleteProject(project.id);
+            }}
+          >
+            삭제하기
+          </DeleteButton>
+        </>
       ) : null}
     </SmallScrollArea>
   );

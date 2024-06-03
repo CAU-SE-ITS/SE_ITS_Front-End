@@ -3,13 +3,19 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import { ScrollArea, Element, CreateProject } from "@/entities";
-import { ProjectService, useProjectStore, PAGE_URL } from "@/shared";
+import {
+  ProjectService,
+  useProjectStore,
+  useUserStore,
+  PAGE_URL,
+} from "@/shared";
 
 export const Projects = () => {
   const [onCreate, setOnCreate] = useState(false);
   const navigate = useNavigate();
 
   const projects = useProjectStore((state) => state.projects);
+  const isAdmin = useUserStore((state) => state.isAdmin);
   const { loadAllProjectList } = ProjectService();
 
   useEffect(() => {
@@ -28,9 +34,13 @@ export const Projects = () => {
 
       <ScrollArea
         title="프로젝트"
-        createClick={() => {
-          setOnCreate(true);
-        }}
+        createClick={
+          isAdmin()
+            ? () => {
+                setOnCreate(true);
+              }
+            : undefined
+        }
       >
         {projects.map((project) => (
           <Element
