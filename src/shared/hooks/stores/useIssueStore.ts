@@ -3,47 +3,36 @@ import { immer } from "zustand/middleware/immer";
 
 export const useIssueStore = create<Issue.IssueStore>()(
   immer((set) => ({
-    /* id: -1,
+    id: -1,
     title: "",
     description: "",
     priority: "MAJOR",
-    state: "NEW",
+    status: "NEW",
     reporter: { id: -1, name: "", role: "DEV" },
-    reporterDate: "",
+    reportedDate: "",
     fixer: undefined,
     assignee: undefined,
-    comments: [], */
-
-    id: 0,
-    title: "테스트 이슈",
-    description:
-      "테스트를 하기 위함 이슈 테스트를 하기 위함 이슈 테스트를 하기 위함 이슈 테스트를 하기 위함 이슈테스트를 하기 위함 이슈 테스트를 하기 위함 이슈 테스트를 하기 위함 이슈 테스트를 하기 위함 이슈 테스트를 하기 위함 이슈",
-    priority: "MAJOR",
-    state: "NEW",
-    reporter: { id: 0, name: "강민규", role: "DEV" },
-    reporterDate: "2024-06-01T19:19:47.514Z",
-    fixer: undefined,
-    assignee: { id: 0, name: "강민규", role: "TESTER" },
-    comments: [
-      {
-        id: 0,
-        member: {
-          id: 0,
-          name: "강민규",
-          role: "TESTER",
-        },
-        content:
-          "댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글",
-      },
-    ],
+    comments: [],
 
     setIssue: (issue) => {
-      set(() => ({ ...issue }));
+      console.log(issue);
+      set(() => ({
+        id: issue.id,
+        title: issue.title,
+        description: issue.description,
+        priority: issue.priority,
+        state: issue.state,
+        reporter: issue.reporter,
+        reportedDate: issue.reportedDate,
+        fixer: issue.fixer,
+        assignee: issue.assignee,
+        comments: [],
+      }));
     },
 
-    setState: (newState: Issue.State) => {
+    setStatus: (newStatus) => {
       set((state) => {
-        state.state = newState;
+        state.status = newStatus;
       });
     },
 

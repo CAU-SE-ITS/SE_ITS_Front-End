@@ -6,6 +6,7 @@ import { useIssueStore, useProjectStore } from "@/shared";
 
 export const IssueService = () => {
   const URL = "api/v1/issue";
+  const MEMBERURL = "api/v1/member/account/project/role";
 
   const setIssue = useIssueStore((state) => state.setIssue);
 
@@ -17,14 +18,32 @@ export const IssueService = () => {
   const deleteComment = useIssueStore((state) => state.deleteComment);
 
   const loadIssue = async (id: number) => {
-    const { data } = (await API.get(`${URL}`, {
-      headers: { issueId: id },
-    })) as AxiosResponse<Issue.Issue>;
+    const { data } = (await API.get(
+      `${URL}?issueId=${id}`
+    )) as AxiosResponse<Issue.Issue>;
+
+    console.log(data);
 
     setIssue(data);
   };
 
+  const getDev = async (id: number) => {
+    const { data } = (await API.get(
+      `{MEMBERURL}?projectId=${id}&role=DEV`
+    )) as AxiosResponse<User.User[]>;
+
+    return data;
+  };
+
+  const getTester = async (id: number) => {
+    const { data } = (await API.get(
+      `{MEMBERURL}?projectId=${id}&role=TESTER`
+    )) as AxiosResponse<User.User[]>;
+
+    return data;
+  };
+
   /*   cconst changeAssignee = async (id); */
 
-  return { loadIssue };
+  return { loadIssue, getDev, getTester };
 };

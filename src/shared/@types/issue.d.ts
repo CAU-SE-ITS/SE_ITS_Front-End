@@ -5,9 +5,9 @@ declare namespace Issue {
     title: string;
     description: string;
     priority: Priority;
-    state: State;
+    status: Status;
     reporter: User.User;
-    reporterDate: string;
+    reportedDate: string;
     fixer: User.User | undefined;
     assignee: User.User | undefined;
     comments: Comment[];
@@ -15,11 +15,11 @@ declare namespace Issue {
 
   export type Priority = "BLOCKER" | "CRITICAL" | "MAJOR" | "MINOR" | "TRIVIAL";
 
-  export type State = "NEW" | "ASSIGNED" | "RESOLVED" | "CLOSED" | "REOPENED";
+  export type Status = "NEW" | "ASSIGNED" | "RESOLVED" | "CLOSED" | "REOPENED";
 
   export interface Comment {
     id: number;
-    member: User.User;
+    writer: User.User;
     content: string;
   }
 
@@ -32,7 +32,7 @@ declare namespace Issue {
   //Store
   export interface IssueStore extends Issue {
     setIssue: (issue: Issue) => void;
-    setState: (newState: State) => void;
+    setStatus: (newStatus: Status) => void;
     setPriority: (priority: Priority) => void;
     setReporter: (user: User) => void;
     setAssignee: (user: User) => void;

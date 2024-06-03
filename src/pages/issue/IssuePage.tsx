@@ -22,8 +22,10 @@ const IssuePage = () => {
   const { loadIssue } = IssueService();
 
   useEffect(() => {
-    //loadIssue(location.state.id);
+    loadIssue(location.state.id);
   }, []);
+
+  console.log(issue);
 
   return (
     <Container>
@@ -44,7 +46,7 @@ const IssuePage = () => {
         {issue.comments.map((comment) => (
           <Comment
             id={comment.id}
-            writer={comment.member}
+            writer={comment.writer}
             content={comment.content}
           />
         ))}

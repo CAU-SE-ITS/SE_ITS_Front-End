@@ -16,6 +16,7 @@ import {
   AccountService,
   useAccountStore,
   ProjectService,
+  IssueService,
   useProjectStore,
   useIssueStore,
   useUserStore,
@@ -53,7 +54,7 @@ export const IssueControl = () => {
     setOptions(newOptions);
   }, [users]);
 
-  const handleSelectChange = (value: number | User.Role) => {
+  const handleSelectChange = (value: number | string) => {
     if (
       project &&
       project.members.findIndex((member) => `${member.id}` === value) === -1
@@ -68,9 +69,11 @@ export const IssueControl = () => {
 
   return (
     <SmallScrollArea title={`[${issue.title}] 이슈 정보`}>
-      <Date>{`이슈 등록 시간 : ${issue.reporterDate.split("T")[0]} ${
-        issue.reporterDate.split("T")[1].split(".")[0]
-      }`}</Date>
+      {issue.id !== -1 ? (
+        <Date>{`이슈 등록 시간 : ${issue.reportedDate.split("T")[0]} ${
+          issue.reportedDate.split("T")[1].split(".")[0]
+        }`}</Date>
+      ) : null}
 
       <DesriptionBox>
         <DescriptionrContainer>"{issue.description}"</DescriptionrContainer>
@@ -78,7 +81,7 @@ export const IssueControl = () => {
 
       <Title>상태 & 우선순위</Title>
       <State>
-        <div>{issue.state}</div>
+        <div>{issue.status}</div>
         <InnerSelectInput
           options={options}
           onChange={handleSelectChange}
