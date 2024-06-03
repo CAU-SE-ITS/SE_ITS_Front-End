@@ -1,6 +1,7 @@
 declare namespace Project {
   //DTO
   export type LoadAccountListResDto = Project[];
+
   //Var
   export interface Project {
     name: string;
@@ -18,6 +19,7 @@ declare namespace Project {
   export interface ProjectStore {
     projects: Project[];
     project: Project | false;
+    userIssues: Issue.Issue[];
     setProjects: (projects: LoadAccountListResDto) => void;
     setProject: (project: Project) => void;
     setProjectIssues: (data: Issue.Issue[]) => void;
@@ -28,5 +30,6 @@ declare namespace Project {
       type: "DELETE" | "ADD"
     ) => void;
     deleteProject: (id: number) => void;
+    setUserIssue: (data: Issue.Issue[]) => void;
   }
 }

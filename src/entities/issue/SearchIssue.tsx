@@ -58,7 +58,7 @@ export const SearchIssue = () => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Title>이슈 검색</Title>
         <Input
-          placeholder="검색 내용을 입력해주세요.."
+          placeholder="검색 내용을 입력해주세요"
           {...register("keyword")}
         />
         <div

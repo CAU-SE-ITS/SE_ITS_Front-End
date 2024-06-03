@@ -10,18 +10,29 @@ import {
   ProjectControl,
   SearchIssue,
 } from "@/entities";
-import { ProjectService, useProjectStore, PAGE_URL } from "@/shared";
+import {
+  useUserStore,
+  ProjectService,
+  useProjectStore,
+  PAGE_URL,
+} from "@/shared";
 
 const ProjectPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [onCreate, setOnCreate] = useState(false);
 
   const project = useProjectStore((state) => state.project);
   const setProject = useProjectStore((state) => state.setProject);
-  const { loadProject } = ProjectService();
+  const userIssues = useProjectStore((state) => state.userIssues);
+  const { loadProject, loadUserIssues } = ProjectService();
+
+  const userState = useUserStore((state) => state);
 
   useEffect(() => {
-    //loadProject(location.state.id);
+    loadProject(location.state.id);
+    if (userState.isDev() || userState.isTester())
+      loadUserIssues(location.state.id, userState.role as "DEV" | "TESTER");
   }, []);
 
   return (
@@ -42,11 +53,36 @@ const ProjectPage = () => {
         <SearchIssue />
         {project &&
           project.issues.map((issue) => (
-            <Element key={issue.id} onClick={() => {}}>
+            <Element
+              key={issue.id}
+              onClick={() => {
+                navigate(PAGE_URL.Issue, { state: { id: issue.id } });
+              }}
+            >
               {`${issue.title} [${issue.state}/${issue.priority}] [${issue.assignee?.name}]`}
             </Element>
           ))}
       </ScrollArea>
+      {userState.isDev() || userState.isTester() ? (
+        <ScrollArea
+          title="담당 이슈"
+          createClick={() => {
+            setOnCreate(true);
+          }}
+        >
+          {project &&
+            userIssues.map((issue) => (
+              <Element
+                key={issue.id}
+                onClick={() => {
+                  navigate(PAGE_URL.Issue, { state: { id: issue.id } });
+                }}
+              >
+                {`${issue.title} [${issue.state}/${issue.priority}] [${issue.assignee?.name}]`}
+              </Element>
+            ))}
+        </ScrollArea>
+      ) : null}
       <ProjectControl />
     </Container>
   );

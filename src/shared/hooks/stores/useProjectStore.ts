@@ -5,6 +5,7 @@ export const useProjectStore = create<Project.ProjectStore>()(
   immer((set) => ({
     projects: [],
     project: false,
+    userIssues: [],
 
     setProjects: (projects) => {
       set(() => ({ projects: projects }));
@@ -46,6 +47,12 @@ export const useProjectStore = create<Project.ProjectStore>()(
         );
 
         if (projectIndex !== -1) state.projects.splice(projectIndex, 1);
+      });
+    },
+
+    setUserIssue: (data) => {
+      set((state) => {
+        state.userIssues = data;
       });
     },
   }))

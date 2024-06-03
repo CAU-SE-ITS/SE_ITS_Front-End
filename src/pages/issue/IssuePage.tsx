@@ -15,12 +15,14 @@ import {
 import { IssueService, useIssueStore, PAGE_URL } from "@/shared";
 
 const IssuePage = () => {
+  const location = useLocation();
   const [onCreate, setOnCreate] = useState(false);
 
   const issue = useIssueStore((state) => state);
+  const { loadIssue } = IssueService();
 
   useEffect(() => {
-    //loadProject(location.state.id);
+    //loadIssue(location.state.id);
   }, []);
 
   return (
