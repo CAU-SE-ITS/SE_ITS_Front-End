@@ -9,7 +9,8 @@ import { GrayBackground, SelectInput, StatusMessage } from "@/entities";
 import {
   AccountService,
   useAccountStore,
-  ProjectService,
+  useIssueStore,
+  IssueService,
   useProjectStore,
 } from "@/shared";
 
@@ -18,20 +19,32 @@ export const CreateComment = ({
   edit,
 }: {
   onClose: () => void;
-  edit?: boolean;
+  edit?: number;
 }) => {
   const { handleSubmit, register } = useForm<{ content: string }>();
   const [message, setMessage] = useState<false | string>(false);
 
-  const project = useProjectStore((state) => state.project);
+  const { createComment, changeComment, removeComment } = IssueService();
+  const id = useIssueStore((state) => state.id);
 
-  const onSubmit: SubmitHandler<{ content: string }> = (data) => {
+  const onEditSubmit: SubmitHandler<{ content: string }> = (data) => {
     if (!data.content) {
-      setMessage("댓글을 입력해주세요.");
+      setMessage("댓글 내용을 입력해주세요.");
       return;
     }
 
-    console.log(data);
+    if (edit) changeComment(edit, data.content);
+
+    onClose();
+  };
+
+  const onCreateSubmit: SubmitHandler<{ content: string }> = (data) => {
+    if (!data.content) {
+      setMessage("댓글 내용을 입력해주세요.");
+      return;
+    }
+
+    createComment(id, data.content);
 
     onClose();
   };
@@ -45,14 +58,18 @@ export const CreateComment = ({
           duration={2000}
         />
       ) : null}
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(edit ? onEditSubmit : onCreateSubmit)}>
         <Title>{edit ? "댓글 수정" : "댓글 작성"}</Title>
         <Textarea placeholder="댓글을 작성해주세요." {...register("content")} />
         <StyleButton type="submit" variant="contained">
           {edit ? "댓글 변경" : "댓글 작성"}
         </StyleButton>
 
-        {edit ? <DeleteButton>삭제하기</DeleteButton> : null}
+        {edit ? (
+          <DeleteButton onClick={() => removeComment(edit)}>
+            삭제하기
+          </DeleteButton>
+        ) : null}
       </Form>
     </GrayBackground>
   );
@@ -73,29 +90,6 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const Input = styled.input`
-  background-color: white;
-
-  width: 80%;
-  height: 45px;
-
-  border: 2px solid #5d5dff;
-  border-radius: 3px;
-
-  outline: none;
-
-  margin-top: 20px;
-
-  font-size: 16px;
-  text-align: center;
-  font-family: "Spoqa Han Sans Neo", "sans-seri";
-
-  ::placeholder {
-    font-family: "Spoqa Han Sans Neo", "sans-seri";
-    text-align: center;
-  }
 `;
 
 const Textarea = styled.textarea`

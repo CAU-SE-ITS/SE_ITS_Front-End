@@ -22,6 +22,27 @@ import {
   useUserStore,
 } from "@/shared";
 
+const statusDevOption = [{ value: "RESOLVED", label: "RESOLVED" }];
+
+const statusTesterOption = [
+  { value: "CLOSED", label: "CLOSED" },
+  { value: "REOPENED", label: "REOPENED" },
+];
+
+const statusOption = [
+  { value: "RESOLVED", label: "RESOLVED" },
+  { value: "CLOSED", label: "CLOSED" },
+  { value: "REOPENED", label: "REOPENED" },
+];
+
+const priorityOption = [
+  { value: "BLOCKER", label: "BLOCKER" },
+  { value: "CRITICAL", label: "CRITICAL" },
+  { value: "MAJOR", label: "MAJOR" },
+  { value: "MINOR", label: "MINOR" },
+  { value: "TRIVIAL", label: "TRIVIAL" },
+];
+
 export const IssueControl = () => {
   const issue = useIssueStore((state) => state);
   const userState = useUserStore((state) => state);
@@ -33,14 +54,23 @@ export const IssueControl = () => {
       label: string;
     }[]
   >([]);
+  const [users, setUsers] = useState<User.User[]>([]);
 
-  const users = useAccountStore((state) => state.accounts);
   const project = useProjectStore((state) => state.project);
-  const { loadAllAccountList } = AccountService();
-  const { setProjectMember } = ProjectService();
+  const {
+    getTester,
+    updataIssue,
+    deleteIssue,
+    requestDeleteIssue,
+    updataIssueDev,
+  } = IssueService();
+
+  const loadOption = async () => {
+    if (project) setUsers(await getTester(project.id));
+  };
 
   useEffect(() => {
-    loadAllAccountList();
+    loadOption();
   }, []);
 
   useEffect(() => {
@@ -54,21 +84,35 @@ export const IssueControl = () => {
     setOptions(newOptions);
   }, [users]);
 
-  const handleSelectChange = (value: number | string) => {
-    if (
-      project &&
-      project.members.findIndex((member) => `${member.id}` === value) === -1
-    ) {
-      setProjectMember(
-        project.id,
-        users.find((member) => `${member.id}` === value)!,
-        "ADD"
-      );
+  const handlePriority = (value: number | string) => {
+    updataIssue({
+      issueId: issue.id,
+      description: issue.description,
+      status: issue.status,
+      priority: value as Issue.Priority,
+    });
+  };
+
+  const handleStatus = (value: number | string) => {
+    if (userState.isDev()) {
+      updataIssueDev({
+        issueId: issue.id,
+        status: value as Issue.Status,
+      });
+    } else {
+      updataIssue({
+        issueId: issue.id,
+        description: issue.description,
+        status: value as Issue.Status,
+        priority: issue.priority,
+      });
     }
   };
 
   return (
     <SmallScrollArea title={`[${issue.title}] 이슈 정보`}>
+      <Category>{issue.category}</Category>
+
       {issue.id !== -1 ? (
         <Date>{`이슈 등록 시간 : ${issue.reportedDate.split("T")[0]} ${
           issue.reportedDate.split("T")[1].split(".")[0]
@@ -79,14 +123,24 @@ export const IssueControl = () => {
         <DescriptionrContainer>"{issue.description}"</DescriptionrContainer>
       </DesriptionBox>
 
-      <Title>상태 & 우선순위</Title>
       <State>
         <div>{issue.status}</div>
-        <InnerSelectInput
-          options={options}
-          onChange={handleSelectChange}
-          placeholder="이슈 상태 변경"
-        />
+        {userState.isPl() ||
+        userState.isAdmin() ||
+        (issue.assignee && userState.userId === issue.assignee.id) ||
+        userState.userId === issue.reporter.id ? (
+          <InnerSelectInput
+            options={
+              userState.isPl() || userState.isAdmin()
+                ? statusOption
+                : userState.userId === issue.reporter.id
+                ? statusTesterOption
+                : statusDevOption
+            }
+            onChange={handleStatus}
+            placeholder="이슈 상태 변경"
+          />
+        ) : null}
       </State>
 
       <Date style={{ backgroundColor: "#831717", borderColor: "#831717" }}>{`${
@@ -97,36 +151,56 @@ export const IssueControl = () => {
 
       <Priority>
         <div>{issue.priority}</div>
-        <InnerSelectInput
-          options={options}
-          onChange={handleSelectChange}
-          placeholder="이슈 우선순위 변경"
-        />
+        {userState.isPl() ||
+        userState.isAdmin() ||
+        (issue.assignee && userState.userId === issue.assignee.id) ? (
+          <InnerSelectInput
+            options={priorityOption}
+            onChange={handlePriority}
+            placeholder="이슈 우선순위 변경"
+          />
+        ) : null}
       </Priority>
 
       <Title>관리자</Title>
       <Reporter>
         <div>{`${issue.reporter.name} [${issue.reporter.id}] `}</div>
-        <InnerSelectInput
+        {/* <InnerSelectInput
           options={options}
           onChange={handleSelectChange}
           placeholder="이슈 관리자 변경"
-        />
+        /> */}
       </Reporter>
 
       <Date
         style={{
           backgroundColor: "#831717",
-          borderColor: "#831717",
+          borderColor: `${
+            userState.userId === issue.reporter.id
+              ? "#831717"
+              : userState.isAdmin() && issue.status === "DELETE_REQUEST"
+              ? "#831717"
+              : userState.isAdmin()
+              ? "#606060"
+              : "#606060"
+          }`,
           display: "flex",
           justifyContent: "center",
+        }}
+        onClick={() => {
+          if (userState.userId === issue.reporter.id)
+            requestDeleteIssue(issue.id);
+          else if (userState.isAdmin() && issue.status === "DELETE_REQUEST")
+            deleteIssue(issue.id);
         }}
       >
         {userState.userId === issue.reporter.id
           ? "이슈 삭제 요청 보내기"
-          : userState.isAdmin()
+          : userState.isAdmin() && issue.status === "DELETE_REQUEST"
           ? "이슈 삭제하기"
-          : null}
+          : userState.isAdmin()
+          ? "이슈 삭제 요청이 없습니다."
+          : "이슈 삭제 관련 권한이 없습니다."}
       </Date>
     </SmallScrollArea>
   );
@@ -146,8 +220,8 @@ const Date = styled.div`
 
   width: 365px;
   height: 20px;
-  background-color: #3030b8;
-  border: 10px solid #3030b8;
+  background-color: #252588;
+  border: 10px solid #252588;
 
   margin-left: 15px;
   margin-right: 15px;
@@ -157,6 +231,11 @@ const Date = styled.div`
 
   color: white;
   font-weight: bold;
+`;
+
+const Category = styled(Date)`
+  background-color: #3030b8;
+  border: 10px solid #3030b8;
 `;
 
 const DesriptionBox = styled.div`

@@ -21,7 +21,7 @@ export const Comment = ({
           onClose={() => {
             setOnEdit(false);
           }}
-          edit
+          edit={id}
         />
       )}
 

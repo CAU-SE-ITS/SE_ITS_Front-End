@@ -6,16 +6,18 @@ import { useIssueStore, useProjectStore } from "@/shared";
 
 export const IssueService = () => {
   const URL = "api/v1/issue";
+  const COMMENTUTL = "api/v1/comment";
   const MEMBERURL = "api/v1/member/account/project/role";
 
   const setIssue = useIssueStore((state) => state.setIssue);
 
-  const setState = useIssueStore((state) => state.setState);
+  const setStatus = useIssueStore((state) => state.setStatus);
   const setPriority = useIssueStore((state) => state.setReporter);
   const setAssignee = useIssueStore((state) => state.setAssignee);
   const setReporter = useIssueStore((state) => state.setReporter);
   const addComment = useIssueStore((state) => state.addComment);
   const deleteComment = useIssueStore((state) => state.deleteComment);
+  const updateComment = useIssueStore((state) => state.updateComment);
 
   const loadIssue = async (id: number) => {
     const { data } = (await API.get(
@@ -29,7 +31,7 @@ export const IssueService = () => {
 
   const getDev = async (id: number) => {
     const { data } = (await API.get(
-      `{MEMBERURL}?projectId=${id}&role=DEV`
+      `${MEMBERURL}?projectId=${id}&role=DEV`
     )) as AxiosResponse<User.User[]>;
 
     return data;
@@ -37,13 +39,89 @@ export const IssueService = () => {
 
   const getTester = async (id: number) => {
     const { data } = (await API.get(
-      `{MEMBERURL}?projectId=${id}&role=TESTER`
+      `${MEMBERURL}?projectId=${id}&role=TESTER`
     )) as AxiosResponse<User.User[]>;
 
     return data;
   };
 
-  /*   cconst changeAssignee = async (id); */
+  const updataIssue = async (body: {
+    issueId: number;
+    description: string;
+    status: Issue.Status;
+    priority: Issue.Priority;
+  }) => {
+    await API.put(`${URL}/update`, body);
 
-  return { loadIssue, getDev, getTester };
+    setStatus(body.status);
+    setPriority(body.priority);
+  };
+
+  const updataIssueDev = async (body: {
+    issueId: number;
+    status: Issue.Status;
+  }) => {
+    await API.put(`${URL}/update/dev`, body);
+
+    setStatus(body.status);
+  };
+
+  const deleteIssue = async (id: number) => {
+    await API.put(`${URL}/deleteRequest/delete`, { issueId: id });
+  };
+
+  const requestDeleteIssue = async (id: number) => {
+    await API.put(`${URL}/deleteRequest`, { issueId: id });
+
+    setStatus("DELETE_REQUEST");
+  };
+
+  const changeAssignee = async (id: number, userId: number) => {
+    const { data } = (await API.put(`${URL}/reassign`, {
+      issueId: id,
+      assigneeId: userId,
+    })) as AxiosResponse<Issue.Issue>;
+
+    setAssignee(data.assignee);
+  };
+
+  const createComment = async (id: number, content: string) => {
+    const { data } = (await API.put(`${COMMENTUTL}/create`, {
+      issueId: id,
+      content: content,
+    })) as AxiosResponse<Issue.Comment>;
+
+    addComment(data);
+  };
+
+  const changeComment = async (id: number, content: string) => {
+    const { data } = (await API.put(`${COMMENTUTL}/update`, {
+      commentId: id,
+      content: content,
+    })) as AxiosResponse<Issue.Comment>;
+
+    updateComment(data.id, data.content);
+  };
+
+  const removeComment = async (id: number) => {
+    const { data } = (await API.put(`${COMMENTUTL}/delete`, {
+      commentId: id,
+    })) as AxiosResponse<Issue.Comment>;
+
+    deleteComment(data.id);
+  };
+
+  return {
+    loadIssue,
+    getDev,
+    getTester,
+    updataIssue,
+    updataIssueDev,
+    deleteIssue,
+    requestDeleteIssue,
+    changeAssignee,
+    createComment,
+    changeComment,
+    removeComment,
+  };
 };

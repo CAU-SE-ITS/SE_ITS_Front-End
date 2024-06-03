@@ -42,8 +42,9 @@ export const CreateIssue = ({ onClose }: { onClose: () => void }) => {
       ) : null}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Title>이슈 생성</Title>
-        <Input placeholder="프로젝트 이름" {...register("title")} />
-        <Textarea placeholder="프로젝트 설명" {...register("description")} />
+        <Input placeholder="이슈 이름" {...register("title")} />
+        <Input placeholder="이슈 카테고리" {...register("category")} />
+        <Textarea placeholder="이슈 설명" {...register("description")} />
         <StyleButton type="submit" variant="contained">
           등록하기
         </StyleButton>

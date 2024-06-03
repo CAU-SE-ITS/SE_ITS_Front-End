@@ -35,10 +35,8 @@ export const AssigneeControl = () => {
   const [users, setUsers] = useState<User.User[]>([]);
 
   const project = useProjectStore((state) => state.project);
-  const { loadAllAccountList } = AccountService();
-  const { setProjectMember } = ProjectService();
 
-  const { getDev } = IssueService();
+  const { getDev, changeAssignee } = IssueService();
 
   const loadOption = async () => {
     if (project) setUsers(await getDev(project.id));
@@ -60,16 +58,7 @@ export const AssigneeControl = () => {
   }, [users]);
 
   const handleSelectChange = (value: number | string) => {
-    if (
-      project &&
-      project.members.findIndex((member) => `${member.id}` === value) === -1
-    ) {
-      setProjectMember(
-        project.id,
-        users.find((member) => `${member.id}` === value)!,
-        "ADD"
-      );
-    }
+    changeAssignee(issue.id, value as number);
   };
 
   return (

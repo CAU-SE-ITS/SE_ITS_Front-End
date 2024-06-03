@@ -5,6 +5,7 @@ declare namespace Issue {
     title: string;
     description: string;
     priority: Priority;
+    category: string;
     status: Status;
     reporter: User.User;
     reportedDate: string;
@@ -15,7 +16,13 @@ declare namespace Issue {
 
   export type Priority = "BLOCKER" | "CRITICAL" | "MAJOR" | "MINOR" | "TRIVIAL";
 
-  export type Status = "NEW" | "ASSIGNED" | "RESOLVED" | "CLOSED" | "REOPENED";
+  export type Status =
+    | "NEW"
+    | "ASSIGNED"
+    | "RESOLVED"
+    | "CLOSED"
+    | "REOPENED"
+    | "DELETE_REQUEST";
 
   export interface Comment {
     id: number;
@@ -26,6 +33,7 @@ declare namespace Issue {
   //Form
   export interface CreateIssueForm {
     title: string;
+    category: string;
     description: string;
   }
 
@@ -38,5 +46,6 @@ declare namespace Issue {
     setAssignee: (user: User) => void;
     addComment: (comment: Comment) => void;
     deleteComment: (id: number) => void;
+    updateComment: (id: number, content: string) => void;
   }
 }
