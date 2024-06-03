@@ -31,5 +31,6 @@ declare namespace Project {
     ) => void;
     deleteProject: (id: number) => void;
     setUserIssue: (data: Issue.Issue[]) => void;
+    addUserIssue: (data: Issue.Issue) => void;
   }
 }

@@ -25,7 +25,7 @@ export const AssigneeControl = () => {
   >([]);
   const [users, setUsers] = useState<User.User[]>([]);
   const [recommendIssues, setRecommendIssues] = useState<
-    { issue: Issue.Issue; score: number }[]
+    { issueResponseDto: Issue.Issue; score: number }[]
   >([]);
 
   const project = useProjectStore((state) => state.project);
@@ -33,17 +33,23 @@ export const AssigneeControl = () => {
   const { getDev, changeAssignee, recommendIssue } = IssueService();
 
   const loadOption = async () => {
-    if (project) setUsers(await getDev(project.id));
+    if (project) {
+      const list = await getDev(project.id);
+      console.log(list);
+      setUsers(list);
+    }
   };
 
   const loadRecomend = async () => {
-    setRecommendIssues(await recommendIssue(issue.id));
+    const list = await recommendIssue(issue.id);
+    console.log(list);
+    setRecommendIssues(list);
   };
 
   useEffect(() => {
-    loadOption();
-    loadRecomend();
-  }, []);
+    if (issue.id !== -1) loadRecomend();
+    if (userState.isAdmin() || userState.isPl()) loadOption();
+  }, [issue.id]);
 
   useEffect(() => {
     const newOptions: {
@@ -83,8 +89,11 @@ export const AssigneeControl = () => {
         <AssigneeSuggestionContainer>
           {recommendIssues.map((issue) => (
             <Element
+              key={issue.issueResponseDto.id}
               onClick={() => {
-                navigate(PAGE_URL.Issue, { state: { id: issue.issue.id } });
+                navigate(PAGE_URL.Issue, {
+                  state: { id: issue.issueResponseDto.id },
+                });
               }}
             >
               <span
@@ -95,9 +104,9 @@ export const AssigneeControl = () => {
                   justifyContent: "center",
                 }}
               >
-                {issue.issue.assignee
-                  ? issue.issue.assignee.name
-                  : "개발자 없음"}
+                {issue.issueResponseDto.assignee
+                  ? issue.issueResponseDto.assignee.name
+                  : "없음"}
               </span>
               <span
                 style={{
@@ -108,7 +117,7 @@ export const AssigneeControl = () => {
                   justifyContent: "center",
                 }}
               >
-                {issue.issue.title}
+                {issue.issueResponseDto.title}
               </span>
               <span
                 style={{

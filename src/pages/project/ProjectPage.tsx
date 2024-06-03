@@ -63,17 +63,14 @@ const ProjectPage = () => {
                 navigate(PAGE_URL.Issue, { state: { id: issue.id } });
               }}
             >
-              {`${issue.title} [${issue.status}/${issue.priority}] [${issue.assignee?.name}]`}
+              {`${issue.title} [${issue.status}/${issue.priority}] [${
+                issue.assignee ? issue.assignee.name : "담당자 없음"
+              }]`}
             </Element>
           ))}
       </ScrollArea>
       {userState.isDev() || userState.isTester() ? (
-        <ScrollArea
-          title="담당 이슈"
-          createClick={() => {
-            setOnCreate(true);
-          }}
-        >
+        <ScrollArea title="담당 이슈">
           {project &&
             userIssues.map((issue) => (
               <Element
@@ -82,7 +79,9 @@ const ProjectPage = () => {
                   navigate(PAGE_URL.Issue, { state: { id: issue.id } });
                 }}
               >
-                {`${issue.title} [${issue.status}/${issue.priority}] [${issue.assignee?.name}]`}
+                {`${issue.title} [${issue.status}/${issue.priority}] [${
+                  issue.assignee ? issue.assignee.name : "담당자 없음"
+                }]`}
               </Element>
             ))}
         </ScrollArea>

@@ -40,6 +40,7 @@ declare namespace Issue {
   //Store
   export interface IssueStore extends Issue {
     setIssue: (issue: Issue) => void;
+    setComment: (comments: Comment[]) => void;
     setStatus: (newStatus: Status) => void;
     setPriority: (priority: Priority) => void;
     setReporter: (user: User) => void;

@@ -1,4 +1,3 @@
-import { Category } from "@mui/icons-material";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
@@ -29,7 +28,7 @@ export const useIssueStore = create<Issue.IssueStore>()(
         reportedDate: issue.reportedDate,
         fixer: issue.fixer,
         assignee: issue.assignee,
-        comments: [],
+        comments: issue.comments,
       }));
     },
 
@@ -57,9 +56,15 @@ export const useIssueStore = create<Issue.IssueStore>()(
       }));
     },
 
+    setComment: (comments) => {
+      set((state) => {
+        state.comments = comments;
+      });
+    },
+
     addComment: (comment) => {
       set((state) => {
-        state.comments.push(comment);
+        state.comments.unshift(comment);
       });
     },
 

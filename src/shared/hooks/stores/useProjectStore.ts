@@ -55,5 +55,12 @@ export const useProjectStore = create<Project.ProjectStore>()(
         state.userIssues = data;
       });
     },
+
+    addUserIssue: (data) => {
+      set((state) => {
+        if (state.project) state.project.issues.push(data);
+        state.userIssues.push(data);
+      });
+    },
   }))
 );

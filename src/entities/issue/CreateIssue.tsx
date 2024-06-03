@@ -6,27 +6,29 @@ import Button from "@mui/material/Button";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 
 import { GrayBackground, SelectInput, StatusMessage } from "@/entities";
-import {
-  AccountService,
-  useAccountStore,
-  ProjectService,
-  useProjectStore,
-} from "@/shared";
+import { IssueService, useProjectStore } from "@/shared";
 
 export const CreateIssue = ({ onClose }: { onClose: () => void }) => {
   const { handleSubmit, register } = useForm<Issue.CreateIssueForm>();
   const [message, setMessage] = useState<false | string>(false);
 
+  const { createIssue } = IssueService();
   const project = useProjectStore((state) => state.project);
 
   const onSubmit: SubmitHandler<Issue.CreateIssueForm> = (data) => {
+    if (!project) return;
+
     if (!data.title || !data.description) {
       setMessage("모든 정보를 입력해주세요.");
       return;
     }
 
-    console.log(data);
-    project && console.log(project.id);
+    createIssue({
+      title: data.title,
+      description: data.description,
+      projectId: project.id,
+      category: data.category,
+    });
 
     onClose();
   };

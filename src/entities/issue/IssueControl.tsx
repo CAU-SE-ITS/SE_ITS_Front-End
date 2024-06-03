@@ -151,7 +151,7 @@ export const IssueControl = () => {
 
       <Date style={{ backgroundColor: "#831717", borderColor: "#831717" }}>{`${
         issue.fixer
-          ? `해당 이슈는 ${issue.fixer.name}에 의하여 닫혔습니다.}`
+          ? `해당 이슈는 ${issue.fixer.name}에 의하여 해결되었습니다.`
           : `해당 이슈는 아직 닫히지 않았습니다.`
       }`}</Date>
 

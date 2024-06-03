@@ -1,8 +1,9 @@
 import { AxiosResponse } from "axios";
+import { useNavigate } from "react-router";
 
 import { API } from "@/shared/configs/axios";
 
-import { useProjectStore } from "@/shared";
+import { PAGE_URL, useProjectStore } from "@/shared";
 
 export const ProjectService = () => {
   const URL = "api/v1/project";
@@ -16,7 +17,9 @@ export const ProjectService = () => {
   );
   const setDeleteProject = useProjectStore((state) => state.deleteProject);
   const setProjectIssues = useProjectStore((state) => state.setProjectIssues);
-  const setUserIssues = useProjectStore((state) => state.setProjectIssues);
+  const setUserIssues = useProjectStore((state) => state.setUserIssue);
+
+  const navigate = useNavigate();
 
   const loadAllProjectList = async () => {
     const { data } = (await API.get(
@@ -85,6 +88,8 @@ export const ProjectService = () => {
     await API.put(`${URL}/${id}`);
 
     setDeleteProject(id);
+
+    navigate(PAGE_URL.Setting);
   };
 
   return {
