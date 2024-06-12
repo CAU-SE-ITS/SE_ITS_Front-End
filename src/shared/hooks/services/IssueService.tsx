@@ -21,6 +21,7 @@ export const IssueService = () => {
   const addComment = useIssueStore((state) => state.addComment);
   const deleteComment = useIssueStore((state) => state.deleteComment);
   const updateComment = useIssueStore((state) => state.updateComment);
+  const assignee = useIssueStore((state) => state.assignee);
 
   const addUserIssue = useProjectStore((state) => state.addUserIssue);
   const project = useProjectStore((state) => state.project);
@@ -96,6 +97,8 @@ export const IssueService = () => {
       body
     )) as AxiosResponse<Issue.Issue>;
 
+    console.log(data);
+
     setIssue(data);
   };
 
@@ -112,12 +115,17 @@ export const IssueService = () => {
   };
 
   const changeAssignee = async (id: number, userId: number) => {
-    const { data } = (await API.put(`${URL}/reassign`, {
-      issueId: id,
-      assigneeId: userId,
-    })) as AxiosResponse<Issue.Issue>;
+    const { data } = (await API.put(
+      assignee ? `${URL}/reassign` : `${URL}/assign`,
+      {
+        issueId: id,
+        assigneeId: userId,
+      }
+    )) as AxiosResponse<Issue.Issue>;
 
-    setAssignee(data.assignee);
+    console.log(data);
+
+    setIssue(data);
   };
 
   const createComment = async (id: number, content: string) => {

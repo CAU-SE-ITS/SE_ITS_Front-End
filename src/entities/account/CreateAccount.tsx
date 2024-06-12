@@ -43,7 +43,7 @@ export const CreateAccount = ({ onClose }: { onClose: () => void }) => {
     onClose();
   };
 
-  const handleSelectChange = (value: User.Role | number) => {
+  const handleSelectChange = (value: string | number) => {
     setValue("role", value as User.Role);
   };
 
